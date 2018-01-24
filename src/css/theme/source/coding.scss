@@ -12,7 +12,7 @@
 
 
 // Include theme-specific fonts
-@import url('https://fonts.googleapis.com/css?family=Open+Sans|Raleway:200,300,400');
+@import url('https://fonts.googleapis.com/css?family=Fredericka+the+Great|Josefin+Slab:300,400,700');
 
 // Override theme settings (see ../template/settings.scss)
 $backgroundColor: #fff;
@@ -21,8 +21,8 @@ $mainColor: #222;
 $headingColor: #222;
 
 $mainFontSize: 42px;
-$mainFont: 'Open Sans', sans-serif;
-$headingFont: 'Raleway', sans-serif;
+$mainFont: 'Josefin Slab', serif;
+$headingFont: 'Fredericka the Great', cursive;
 $headingTextShadow: none;
 $headingLetterSpacing: normal;
 $headingTextTransform: uppercase;
@@ -36,7 +36,7 @@ $heading2Size: 1.6em;
 $heading3Size: 1.3em;
 $heading4Size: 1.0em;
 
-section.has-dark-background {
+section.darkBackground {
 	&, h1, h2, h3, h4, h5, h6 {
 		color: #fff;
 	}
@@ -76,7 +76,6 @@ section.has-dark-background {
 }
 
 section.title {
-    font-family: $headingFont;
     text-align: left;
     background-color:  rgba(0, 0, 0, 0.6);
     color: $backgroundColor;
@@ -90,6 +89,7 @@ section.title {
     h2, h3, address {
         font-weight: 200;
         color: $backgroundColor;
+        font-family: $mainFont;
     }
 
     &.animated {
@@ -102,6 +102,17 @@ section.title {
     }
 }
 
+html.blur .backgrounds {
+    filter: blur(4px) saturate(.7) brightness(.8);
+}
+
+html.dark .backgrounds {
+    filter: brightness(.6);
+}
+
+html.watermark .backgrounds {
+    filter: opacity(.15);
+}
 
 /***********************************************
  * Headers & Footers
@@ -111,7 +122,7 @@ section.title {
     position: absolute;
     font-size: 0.35em;
     font-weight: 300;
-    font-family: $headingFont;
+    font-family: $mainFont;
     bottom: 1em;
 
     &.center {
@@ -148,4 +159,13 @@ section.title {
     &.right {
         right: 1em;
     }
+ }
+
+ /***********************************************
+ * shouting
+ ***********************************************/
+
+ .shout {
+     font-size: 4em !important;
+     font-weight: 200 !important;
  }
