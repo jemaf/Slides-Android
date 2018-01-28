@@ -169,3 +169,64 @@ html.watermark .backgrounds {
      font-size: 4em !important;
      font-weight: 200 !important;
  }
+
+ /***********************************************
+ * Quoting
+ ***********************************************/
+
+ .reveal blockquote {
+    // position: relative;
+    margin: 5% auto;
+    width: 70%;
+    font-size: 1.5em;
+    line-height: 1.5em;
+    font-weight: 200;
+    padding-left: 1em;
+    border-left: 25px solid rgba(0, 0, 0, 0.6);
+    box-shadow: none;
+
+    & > footer {
+        display: block;
+        text-align: right;
+        font-size: 0.6em;
+        line-height: 2em;
+        color: rgba(0, 0, 0, 0.6);
+
+        &:before {
+            content: '\2015 ';
+        }
+    }
+  }
+  
+
+/***********************************************
+ * coding
+ ***********************************************/
+ pre {
+    &[data-file]::before {
+        content: attr(data-file);
+        position: absolute;
+        bottom: 0em;
+        right: 0em;
+        font-size: 1.5em;
+        font-family: $headingFont;
+        color: $linkColorHover;
+        padding: 0.3em;
+    }
+
+    code mark {
+        background-color: #fff2a8;
+
+        &.blue {
+            background-color: #a8d1ff;
+        }
+
+        &.green {
+            background-color: #B7FFCB;
+        }
+
+        &.red {
+            background-color: #ffb7b7;
+        }
+    }
+ }
