@@ -1,0 +1,270 @@
+<section class="title" data-background="img/coltec.png" data-state="blur">
+	<h3>COLTEC/UFMG</h3>
+	<h1>Activity</h1>
+	<h3>João Eduardo Montandon</h3>
+</section>
+
+<section>
+    <h2>O que é?</h2>
+    <p>Componente básico que fornece uma tela com a qual usuários podem interagir.</p>
+</section>
+
+<section>
+    <h2>Activities</h2>
+    <ul>
+        <li>Representam as telas e funcionalidades do aplicativo</li>
+        <li>É composta de uma classe Java e um arquivo XML</li>
+        <li>Sua classe deve herdar de <code>android.app.Activity</code></li>
+        <li>Deve ser <b>sempre</b> declarada no Android Manifest</li>
+    </ul>
+    <p>O uso de activities é <b>elementar</b> no desenvolvimento de aplicativos!!</p>
+</section>
+
+<section id="toyActivity">
+
+    <style>
+        #toyActivity .box {
+            background-color: #a8d1ff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+            padding: 1em;
+            text-align: left;
+
+            position: fixed;
+            right: 3%;
+            top: 50%;
+            width: 25%;
+        }
+    </style>
+
+    <h2>Criando uma Activity</h2>
+    <pre data-file="MyActivity.java"><code data-trim data-noescape class="java">
+        public class MyActivity <mark>extends Activity</mark> {
+            ...
+            @Override
+            protected void onCreate(Bundle savedInstanceState) {
+                super.onCreate(savedInstanceState);
+                <mark>setContentView(R.layout.activity_my);</mark>
+            }
+            ...
+        }            
+    </code></pre>
+    <pre data-file="activity_my.xml"><code data-trim data-noescape class="xml">
+        &lt;?xml version="1.0" encoding="utf-8"?&gt;
+        &lt;RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            <mark>tools:context="br.ufmg.coltec.hellodroid.MyActivity"</mark>&gt;
+        
+        &lt;/RelativeLayout&gt;            
+    </code></pre>
+    <pre data-file="AndroidManifest.xml"><code data-trim data-noescape class="xml">
+        &lt;application ...&gt;
+            &lt;activity android:name=".HelloActivity"&gt;
+                ...
+            &lt;/activity&gt;
+            <mark>&lt;activity android:name=".MyActivity"&gt;&lt;/activity&gt;</mark>
+        &lt;/application&gt;
+    </code></pre>
+    <div class="box fragment">
+        <p><b>Dica:</b> utilize <b>sempre</b> a IDE para criar sua Activity!!</p>
+        <p>&RightArrow; File > New > Activity</p>
+    </div>
+</section>
+
+<section>
+    <h2>Os três tipos de Activity</h2>
+    <table>
+        <tr>
+            <th>Classe</th>
+            <th>Descrição</th>
+        </tr>
+        <tr>
+            <td><code>android.app.Activity</code></td>
+            <td>Classe padrão da activity.</td>
+        </tr>
+        <tr>
+            <td><code>android.support.v4.app.FragmentActitivy</code></td>
+            <td>Classe da biblioteca de compatibilidade v4, que provê suporte a fragments até a versão 4 (Android 1.6+)</td>
+        </tr>
+        <tr>
+            <td><code>android.support.v7.app.AppCompatActivity</code></td>
+            <td>Classe da biblioteca de compatibilidade v7, que provê suporte a fragments até a versão 7 (Android 2.3+)</td>
+        </tr>
+    </table>
+</section>
+
+<section id="lifeCycle">
+    <style>
+        #lifeCycle iframe {
+            position: fixed;
+            bottom: 30%;
+            right: 0;
+            width: 784px;
+            height: 441px;
+        }
+        #lifeCycle .left {
+            position: fixed;
+            left: 5%;
+            top: 30%;
+        }
+    </style>
+    <div class="left">
+        <p>Digamos que você desenvolveu um jogo para o Android...</p>
+        <ol>
+            <li class="fragment">O usuário está jogando</li>
+            <li class="fragment">Alguém liga</li>
+            <li class="fragment">Ele atende</li>
+            <li class="fragment">S.O. pausa o jogo</li>
+            <li class="fragment">Ele desliga</li>
+            <li class="fragment">S.O. reinicia o jogo... <span class="fragment" style="font-size: 1.5em;">E AGORA!?!?</span></li>
+        </ol>
+    </div>
+    <iframe src="https://www.youtube.com/embed/IW7Rqwwth84" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+</section>
+
+<section>
+    <h2>O Ciclo de Vida</h2>
+    <ul>
+        <li>
+            <p><b>O que é?</b> Sequência de estados que define o comportamento <br> de uma Activity em determinados cenários</p>
+        </li>
+        <li>
+            <p>Utilizado pelo Android para controlar o estado da sua aplicação</p>
+            <ul>
+                <li>O S.O. seleciona a Acitivity a ser executada a partir da <b>Activity Stack</b></li>
+            </ul>
+        </li>
+        <li>
+            <p>Uma Activity <b>sempre</b> está em um dos estados depois de iniciada</p>
+        </li>
+    </ul>
+</section>
+
+<section>
+    <h2>O Ciclo de Vida</h2>
+    <a href="https://developer.android.com/guide/components/activities.html?hl=pt-br">
+        <img class="stretch" src="img/04_activity/android-lifecycle.png" alt="">
+    </a>
+    <p>
+        <small>
+            Fonte: Android Developer Guide
+        </small>
+    </p>
+</section>
+
+<section>
+    <h2>O Ciclo de Vida</h2>
+    <table>
+        <tr>
+            <th>Método</th>
+            <th>Descrição</th>
+        </tr>
+        <tr>
+            <td><code>onCreate(Bundle)</code></td>
+            <td>Método Obrigatório para toda Activity. Executado uma única vez quando ela é inicializada.</td>
+        </tr>
+        <tr>
+            <td><code>onStart()</code></td>
+            <td>Executado toda vez que a interface está prestes a ser exibida para o usuário.</td>
+        </tr>
+        <tr>
+            <td><code>onResume()</code></td>
+            <td>Executado logo após a interface da Activity ser exibida para o usuário (Ideal para tratamentos multithread, como chamada a serviços).</td>
+        </tr>
+        <tr>
+            <td><code>onPause()</code></td>
+            <td>Chamado quando a tela da Activity é, de alguma forma, fechado.</td>
+        </tr>
+        <tr>
+            <td><code>onStop()</code></td>
+            <td>Executado logo após a chamada do método <code>onPause()</code>. Indica que a Activity está sendo encerrada.</td>
+        </tr>
+        <tr>
+            <td><code>onRestart()</code></td>
+            <td>Chamado quando uma Activity parada anteriormente está sendo reexecutada.</td>
+        </tr>
+        <tr>
+            <td><code>onDestroy()</code></td>
+            <td>Executado quando uma aplicação está encerrando em definitivo sua execução. Pode ser invocada automatimcamente pelo S.O. para liberacação de recursos, ou explicitamente através do método <code>finish()</code>.</td>
+        </tr>
+    </table>
+</section>
+
+<section>
+    <h1>Navegação Entre Telas</h1>
+</section>
+
+<section>
+    <h2>Navegando entre Telas</h2>
+    <p>A transição entre telas é feito por Activities, que deverão ser invocadas programaticamente:</p>
+    <table>
+        <tr>
+            <td><code>startActivity(intent)</code></td>
+            <td>Inicia a próxima Activity sem que haja um vínculo com a Activity anterior.</td>
+        </tr>
+        <tr>
+            <td><code>startActivityForResult(intent, codigo)</code></td>
+            <td>Inicia a próxima Activity de forma que, ao ser finalizada, alguma resposta possa ser retornada para a Activity original.</td>
+        </tr>
+    </table>
+</section>
+
+<section>
+    <h2><code>startActivity(intent)</code></h2>
+    <pre><code data-trim data-noescape style="max-height: none;" class="java">
+        ...
+        Button btnUpdate = findViewById(R.id.btn_update);
+        
+        // mudará de tela quando clicar no botão
+        btnUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                <mark>Intent intent = new Intent(HelloActivity.this, MyActivity.class);</mark>
+                <mark>startActivity(intent);</mark> // navega para a próxima tela
+            }
+        });
+    </code></pre>
+</section>
+
+<section>
+    <h2>Passagem de Parâmetros</h2>
+    <p>Frequentemente precisamos enviar dados de uma tela para outra.</p>
+    <p>Porém, devido ao mecanismo de Intents, não é possível acessar diretamente propriedades de outras Activities</p>
+    <p class="shout fragment">Habemus <code>Bundle</code></p>
+</section>
+
+<section>
+    <h2>Objeto <code>Bundle</code></h2>
+    <pre data-file="HelloActivity.java"><code data-trim data-noescape class="java">
+        btnUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(HelloActivity.this, MyActivity.class);
+
+                // cria o bundle e o insere na nova Intent
+                <mark>Bundle args = new Bundle();</mark>
+                <mark>args.putCharSequence("name", txtName.getText());</mark>
+                <mark>intent.putExtras(args);</mark>
+
+                startActivity(intent);
+            }
+        });
+    </code></pre>
+    <pre data-file="MyActivity.java"><code data-trim data-noescape class="java">
+        ...
+        protected void onCreate(Bundle savedInstanceState) {
+            ...
+    
+            // recupera dado do bundle
+            <mark>Bundle activityBundle = this.getIntent().getExtras();</mark>
+            <mark>String name = activityBundle.getString("name");</mark>
+    
+            // imprime dado na tela
+            TextView lblMessage = findViewById(R.id.lbl_message);
+            lblMessage.setText("Olá, " + name);
+    
+        }
+        ...    
+    </code></pre>
+</section>
