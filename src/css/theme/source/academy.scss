@@ -232,8 +232,26 @@ html.watermark .backgrounds {
  }
 
 
+/***********************************************
+ * listings
+ ***********************************************/
+
  ul {
      li {
          margin-bottom: 0.5em !important;
      }
  }
+
+ /***********************************************
+ * reference slide
+ ***********************************************/
+ 
+section.reference {
+    margin-left: 3%;
+    ul {
+        float: left;
+    }
+    h2, p {
+        text-align: left;
+    }
+}
