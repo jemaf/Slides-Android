@@ -108,10 +108,10 @@
     <pre><code data-trim data-noescape>
         package br.ufmg.coltec.hellodroid;
 
-        import android.support.v7.app.AppCompatActivity;
+        import android.app.Activity;
         import android.os.Bundle;
         
-        public class HelloActivity extends <mark>AppCompatActivity</mark> {
+        public class HelloActivity extends <mark>Activity</mark> {
         
             @Override
             protected void onCreate(Bundle savedInstanceState) {
@@ -318,7 +318,7 @@
 <section>
     <h2>Hello, <code>Cara</code>!</h2>
     <pre data-file="HelloActivity.java"><code data-trim class="java" data-noescape style="max-height: 100%;">
-        public class HelloActivity extends AppCompatActivity {
+        public class HelloActivity extends Activity {
 
             @Override
             protected void onCreate(Bundle savedInstanceState) {
@@ -375,6 +375,89 @@
     </code></pre>
     <p>Muito utilizado no universo Android</p>
     <p>Você desenvolve, mas o Android decide quando ele será executado</p>
+</section>
+
+<section id="logCat">
+    <style>
+        #logCat .box {
+            background-color: #fff2a8;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+            padding: 1em;
+            text-align: left;
+
+            position: fixed;
+            right: 3%;
+            top: 75%;
+            width: 25%;
+        }
+    </style>
+    <h2>O LOGCat</h2>
+    <p>Utilizado para registrar o log das ações do aplicativo</p>
+    <table>
+        <tr>
+            <td><code>Log.wtf</code></td>
+            <td>Deve ser utilizado quando há uma falha grave, que impede a execução do aplicativo (crash).</td>
+        </tr>
+        <tr>
+            <td><code>Log.e</code></td>
+            <td>Utilizado quando há um erro sério, mas que não impede execução do aplicativo.</td>
+        </tr>
+        <tr>
+            <td><code>Log.w</code></td>
+            <td>Informar avisos e comportamentos anormais na execução do aplicativo</td>
+        </tr>
+        <tr>
+            <td><code>Log.d</code></td>
+            <td>Utilizar para fins de debug</td>
+        </tr>
+        <tr>
+            <td><code>Log.i</code></td>
+            <td>Utilizar para fins de informação/checkpoints de execução</td>
+        </tr>
+        <tr>
+            <td><code>Log.v</code></td>
+            <td>Verbose, prioridade mais baixa de impressão.</td>
+        </tr>
+    </table>
+
+    <div class="box">Evite utilizar o <code>System.out.println</code> para logging!!</div>
+</section>
+
+<section id="logCatExample">
+    <style>
+        #logCatExample code{
+            max-height: 100%;
+        }
+
+        #logCatExample img {
+            position: fixed;
+            right: 0;
+            top: 60%;
+
+            border: none;
+            box-shadow: none;
+        }
+    </style>
+    <h2>O LOGCat</h2>
+    <pre><code data-trim data-noescape>
+        import android.app.Activity;
+        import android.os.Bundle;
+        <mark>import android.util.Log;</mark>
+        
+        public class MainActivity extends Activity {
+        
+            <mark>private static final String TAG = MainActivity.class.getName();</mark>
+        
+            @Override
+            protected void onCreate(Bundle savedInstanceState) {
+                super.onCreate(savedInstanceState);
+                setContentView(R.layout.activity_main);
+        
+                <mark>Log.i(TAG, "App inicializado!!");</mark>
+            }
+        }            
+    </code></pre>
+    <img src="img/03_hello_world/logCat.png" alt="">
 </section>
 
 <section id="howToRun">
