@@ -1,0 +1,576 @@
+<section class="title" data-background="img/coltec.png" data-state="blur">
+	<h3>COLTEC/UFMG</h3>
+	<h1>Interface Gráfica</h1>
+	<h3>João Eduardo Montandon</h3>
+</section>
+
+<section data-background="https://media.giphy.com/media/4MwP0n2iPbkcM/giphy.gif" data-state="dark" class="darkBackground">
+    <h1>Interfaces... <br> São Importantes?</h1>
+</section>
+
+<section>
+    <h2>Interfaces Gráficas (GUI)</h2>
+    <ul>
+        <li><p>Canal de interação entre o programa e seus usuários</p></li>
+        <li><p><b>Todas</b> as ações do usuário são feitas por intermédio de uma GUI</p></li>
+        <li><p>Ganhou muita importância com o advento da tecnologia móvel</p></li>
+    </ul>
+</section>
+
+<section id="guiVsUx">
+    <style>
+        #guiVsUx .box {
+            background-color: #fff2a8;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+            padding: 1em;
+            text-align: left;
+
+            position: fixed;
+            right: 3%;
+            top: 70%;
+            width: 15%;
+            text-align: center;
+        }
+    </style>
+    <h2>GUI &NotEqual; UX</h2>
+    <iframe src="https://embed.ted.com/talks/lang/pt-br/renny_gleeson_404_the_story_of_a_page_not_found" width="854" height="480" frameborder="0" scrolling="no" allowfullscreen></iframe>
+    <div class="box">
+        Nós focaremos em GUI!!
+    </div>
+</section>
+
+<section>
+    <h2>Android &mdash; GUI</h2>
+    <ul>
+        <li><p>No Android, as interface gráfica é composta por um catálogo de componentes</p></li>
+        <li><p>A montagem da interface é resultante da combinação desses componentes</p></li>
+        <li><p>Interface pode ser descrita em código ou <code>XML</code></p></li>
+        <li><p>Existem basicamente dois tipos de componentes:</p></li>
+        <ul>
+            <li><b>Layouts:</b> lidam com o posicionamento dos elementos</li>
+            <li><b>Widgets:</b> componentes com os quais o usuário pode visualizar e interagir</li>
+        </ul>
+    </ul>
+</section>
+
+<section>
+    <h2>Propriedades dos Componentes</h2>
+    <p>Todas os componentes possuem algumas propriedades em comum</p>
+    <table>
+        <tr>
+            <th>Propriedade</th>
+            <th>Descrição</th>
+            <th>Valores</th>
+        </tr>
+        <tr>
+            <td><code>android:layout_width</code></td>
+            <td>Define a largura que um componente irá ocupar</td>
+            <td rowspan="2"><code>match_parent</code> <br> <code>wrap_content</code> <br> <code>número (dp)</code></td>
+        </tr>
+        <tr>
+            <td><code>android:layout_height</code></td>
+            <td>Define a altura que um componente irá ocupar</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><code>android:layout_margin</code></td>
+            <td>Define a margem que um componente irá tomar de seu container</td>
+            <td><code>número (dp)</code></td>
+        </tr>
+        <tr>
+            <td><code>android:id</code></td>
+            <td>Identifica uma <code>view</code> para ser referenciada posteriormente</td>
+            <td><code>@+id/identificador</code></td>
+        </tr>
+    </table>
+</section>
+
+<section id="whExample">
+    <style>
+        #whExample .left {
+            float: left;
+            width: 70%;
+        }
+        #whExample img {
+            position: fixed;
+            right: 0%;
+            top: 10%;
+        }
+
+        #whExample .box {
+            background-color: #ffb7b7;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+            padding: 1em;
+            font-size: 0.7em;
+
+            position: fixed;
+            right: 35%;
+            top: 60%;
+            width: 15%;
+            text-align: center;
+        }
+    </style>
+    <div class="left">
+        <h2>Exemplo</h2>
+        <pre data-file="MainActivity.xml"><code data-trim data-noescape class="xml">
+            &lt;?xml version="1.0" encoding="utf-8"?&gt;
+            &lt;FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            <mark>android:layout_width="match_parent"</mark>
+            <mark>android:layout_height="match_parent"</mark>&gt;
+            
+            &lt;TextView
+            <mark>android:layout_width="match_parent"</mark>
+            <mark>android:layout_height="wrap_content"</mark>
+            android:textAlignment="center"
+            android:background="#f00" 
+            android:textColor="#fff"
+            <mark>android:id="@+id/lblHelloWorld"</mark> /&gt;
+            
+            &lt;/FrameLayout&gt;
+        </code></pre>
+        <pre data-file="MainActivity.java"><code data-trim data-noescape class="java">
+            public class MainActivity extends Activity {
+
+                @Override
+                protected void onCreate(Bundle savedInstanceState) {
+                    super.onCreate(savedInstanceState);
+                    <mark>setContentView(R.layout.activity_main);</mark>
+
+                    <mark>TextView lblHelloWorld = findViewById(R.id.lblHelloWorld);</mark>
+                    lblHelloWorld.setText("Hello World!");
+                }
+            }                
+        </code></pre>
+    </div>
+    <img data-src="img/05_gui/layout_w_h.png" alt="">
+    <div class="box fragment">
+        O que <code>findViewById</code> faz?
+    </div>
+</section>
+
+<section>
+    <h2>A classe <code>View</code></h2>
+    <ul>
+        <li><p>Classe base que representa todos os componentes visuais (Layouts e Widgets)</p></li>
+        <li><p>Qualquer componente herda a classe <code>android.view.View</code></p></li>
+        <ul>
+            <li><p>Obrigatório a implementção do método <code>onDraw(canvas)</code></p></li>
+        </ul>
+        <li><p><b>Widgets</b> geralmente herdam diretamente a classe <code>View</code></p></li>
+        <li><p><b>Layouts</b> herdam <code>View</code> através da classe <code>ViewGroup</code></p></li>
+    </ul>
+</section>
+
+<section>
+    <img class="stretch" data-src="img/05_gui/class_hierarchy_view.svg" alt="">
+</section>
+
+<!-- ----------------------------------------------- GUI pt. 1: Layouts ----------------------------------------------- -->
+
+<section>
+    <h1>GUI &mdash; Layouts</h1>
+</section>
+
+<section id="viewGroup">
+    <style>
+        #viewGroup .left {
+            float: left;
+            max-width: 60%;
+
+            text-align: left;
+            padding-left: 5%;
+        }
+
+        #viewGroup img {
+            position: fixed; 
+            right: 10%;   
+            top: 50%;
+            width: 35%;
+        }
+    </style>
+    <div class="left">
+        <h2>Layouts</h2>
+        <p>São componentes que tem como propósito agrupar e organizar outros componentes na tela</p>
+        <p>Organização acontece de forma hierárquica</p>
+        <p>Todos os layouts devem herdar de <code>android.view.ViewGroup</code></p>
+    </div>
+    <img data-src="img/05_gui/viewgroup.png" alt="">
+</section>
+
+<section id="mainLayouts">
+    <style>
+        #mainLayouts .box {
+            background-color: #fff2a8;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+            padding: 0.3em;
+            text-align: left;
+
+            position: fixed;
+            left: 0%;
+            top: 85%;
+            width: 40%;
+            text-align: center;
+        }
+    </style>
+    <h2>Principais Layouts</h2>
+    <table>
+        <tr>
+            <th>Layout</th>
+            <th>Descrição</th>
+        </tr>
+        <tr>
+            <td><code>AbsoluteLayout</code></td>
+            <td>Posiciona os componentes de forma fixa, utilizando coordenadas <code>x</code> e <code>y</code>. <b>Deprecated!!</b></td>
+        </tr>
+        <tr>
+            <td><code>FrameLayout</code></td>
+            <td>Tipo mais simples de Layout. Exibe um componente sobre outro, utilizando uma lógica de pilha.</td>
+        </tr>
+        <tr>
+            <td><code>LinearLayout</code></td>
+            <td>Organiza os componentes linearmente, podendo ser configurado para exibí-los na horizontal ou vertical.</td>
+        </tr>
+        <tr>
+            <td><code>TableLayout</code></td>
+            <td>Organiza os componentes no formato de uma tabela. Esse layout é uma derivação do LinearLayout.</td>
+        </tr>
+        <tr>
+            <td><code>RelativeLayout</code></td>
+            <td>Organiza os componentes de forma relativa a outros. Por exemplo, posiciona componente <code>A</code> acima (a esquerda, direita ou embaixo) do componente <code>B</code>.</td>
+        </tr>
+    </table>
+    <div class="box"><p>Outros layouts podem ser consultados <a href="https://developer.android.com/guide/topics/ui/declaring-layout.html">aqui</a>!!</p></div>
+</section>
+
+<section>
+    <h2>FrameLayout</h2>
+    <ul>
+        <li>Implementação mais simples existente</li>
+        <li>Empilha um componente sobre outro no momento de sua exibição</li>
+        <ul>
+            <li>Os últimos ficarão sobre os primeiros (FIFO)</li>
+        </ul>
+    </ul>
+</section>
+
+<section id="frameLayoutExample">
+    <style>
+        #frameLayoutExample .left {
+            float: left;
+            width: 70%;
+        }
+        #frameLayoutExample img {
+            position: fixed;
+            right: 0%;
+            top: 10%;
+        }
+    </style>
+    <div class="left">
+        <h2>FrameLayout</h2>
+        <pre data-file="FrameLayoutExample.xml"><code data-trim data-noescape class="xml">
+            &lt;<mark>FrameLayout</mark> xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp" &gt;
+                
+                &lt;ListView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" /&gt;
+                
+                &lt;ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                <mark>android:layout_gravity="center"</mark> /&gt;
+            
+            &lt;/<mark>FrameLayout</mark>&gt;        
+        </code></pre>
+    </div>
+    <img data-src="img/05_gui/frame_layout.png" alt="">
+</section>
+
+<section>
+    <h2>LinearLayout</h2>
+    <ul>
+        <li>Um dos componentes de Layout mais comuns</li>
+        <li>Organiza os componentes linearmente</li>
+        <li>As linhas podem ser horizontais (padrão) ou verticais</li>
+        <ul>
+            <li>Customizados pela propriedade <code>android:orientation</code></li>
+        </ul>
+    </ul>
+</section>
+
+<section id="linearLayoutExample">
+    <style>
+        #linearLayoutExample .left {
+            float: left;
+            width: 70%;
+        }
+
+        #linearLayoutExample code {
+            max-height: 100%;
+        }
+
+        #linearLayoutExample img {
+            position: fixed;
+            right: 0%;
+            top: 10%;
+        }
+
+        #linearLayoutExample #boxGravity {
+            position: fixed;
+            width: 20%;
+            background-color: #fff2a8;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+            text-align: left;
+
+            top: 25%;
+            left: 43%;
+            font-size: 0.7em;
+            padding: 0.5em;
+        }
+
+        #linearLayoutExample #boxWeight {
+            position: fixed;
+            width: 20%;
+            background-color: #B7FFCB;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+            text-align: left;
+
+            top: 55%;
+            left: 43%;
+            font-size: 0.7em;
+            padding: 0.5em;
+        }
+
+    </style>
+    <div class="left">
+        <h2>LinearLayout</h2>
+        <pre data-file="LinearLayoutExample.xml"><code data-trim data-noescape class="xml">
+                &lt;?xml version="1.0" encoding="utf-8"?&gt;
+                &lt;<mark>LinearLayout</mark> ...
+                    <mark>android:orientation="vertical"</mark>&gt;
+                
+                    &lt;TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="E-mail" /&gt;
+                
+                    &lt;EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" /&gt;
+                
+                    &lt;TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Observações" /&gt;
+                
+                    &lt;EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        <mark>android:layout_weight="1"</mark>/&gt;
+                
+                    &lt;Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Enviar"
+                        <mark>android:layout_gravity="right"</mark> /&gt;
+                
+                &lt;/<mark>LinearLayout</mark>&gt; 
+        </code></pre>
+        <div id="boxGravity">
+            <code>android:layout_gravity</code> configura o posicionamento do componente
+        </div>
+        <div id="boxWeight">
+            <code>android:weight</code> configura o peso do componente
+        </div>
+    </div>
+    <img data-src="img/05_gui/linear_layout.png" alt="">
+</section>
+
+<section>
+    <h2>TableLayout</h2>
+    <ul>
+        <li>Layout que organiza a tela no formato de tabela</li>
+        <li>Útil para disposição de dados tabulares (Relatórios, formulários, etc.)</li>
+        <li>Linhas da tabela são representadas por <code>android.widget.TableRow</code></li>
+        <ul>
+            <li>Esse componente também é uma <code>view</code>, portando pode conter outros componentes</li>
+        </ul>
+    </ul>
+</section>
+
+<section>
+    <h2>TableLayout</h2>
+    <p>Possui dois atributos que podem alterar o formato da tabela</p>
+    <table>
+            <tr>
+                <th>Atributo</th>
+                <th>Descrição</th>
+            </tr>
+            <tr>
+                <td><code>android:stretchColumns</code></td>
+                <td>Define quais colunas irão expandir-se ocupando o espaço disponível na tela. Similar ao atirbuto <code>colspan</code> do HTML.</td>
+            </tr>
+            <tr>
+                <td><code>android:shrinkColumns</code></td>
+                <td>Define quais colunas serão sempre exibidas na tela.</td>
+            </tr>
+        </table>
+</section>
+
+<section id="tableLayoutExample">
+    <style>
+        #tableLayoutExample .left {
+            float: left;
+            width: 70%;
+        }
+
+        #tableLayoutExample code {
+            max-height: 100%;
+        }
+
+        #tableLayoutExample img {
+            position: fixed;
+            right: 0%;
+            top: 28%;
+        }
+    </style>
+    <h2>TableLayout</h2>
+    <div class="left">
+        <pre data-file="TableLayoutActivity.xml"><code data-trim data-noescape class="xml">
+            &lt;?xml version="1.0" encoding="utf-8"?&gt;
+            &lt;<mark>TableLayout</mark> ...
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                <mark>android:stretchColumns="1"</mark> &gt;
+            
+                <mark>&lt;TableRow&gt;</mark>
+                    &lt;TextView android:text="E-mail: " android:padding="3dip"/&gt;
+                    &lt;EditText android:padding="3dip" android:inputType="textEmailAddress"/&gt;
+                <mark>&lt;/TableRow&gt;</mark>
+            
+                <mark>&lt;TableRow&gt;</mark>
+                    &lt;TextView android:text="Senha: " android:padding="3dip"/&gt;
+                    &lt;EditText android:inputType="textPassword"/&gt;
+                <mark>&lt;/TableRow&gt;</mark>
+            
+                <mark>&lt;TableRow android:gravity="right"&gt;</mark>
+                    &lt;Button android:text="Login"/&gt;
+                <mark>&lt;/TableRow&gt;</mark>
+            &lt;/<mark>TableLayout</mark>&gt;                
+        </code></pre>
+    </div>
+    <img data-src="img/05_gui/table_layout.png" alt="">
+</section>
+
+<section>
+    <h2>RelativeLayout</h2>
+    <ul>
+        <li>Posiciona os componentes em relação a um já existente</li>
+        <li>O posicionamento é feito com base em uma <a href="https://developer.android.com/reference/android/widget/RelativeLayout.LayoutParams.html">lista</a> de atributos</li>
+        <li><b>Vantagem:</b> Extremamente Flexível</li>
+        <li><b>Desvantagem:</b> Fragilidade</li>
+    </ul>
+</section>
+
+<section id="relativeLayoutExample">
+    <style>
+        #relativeLayoutExample .left {
+            float: left;
+            width: 70%;
+        }
+
+        #relativeLayoutExample img {
+            position: fixed;
+            right: 0%;
+            bottom: 13%;
+        }
+    </style>
+    <div class="left">
+        <pre data-file="RelativeLayoutActivity.xml"><code data-trim data-noescape class="xml" style="max-height:40em">
+                &lt;?xml version="1.0" encoding="utf-8"?&gt;
+                &lt;<mark>RelativeLayout</mark> ... &gt;
+
+                    &lt;TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        <mark>android:layout_alignParentTop="true"</mark>
+                        android:id="@+id/lblNome"
+                        android:text="Nome:" /&gt;
+                
+                    &lt;EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        <mark>android:layout_toRightOf="@+id/lblNome"</mark>
+                        android:id="@+id/txtNome"/&gt;
+                
+                    &lt;TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        <mark>android:layout_below="@+id/txtNome"</mark>
+                        android:id="@+id/lblEmail"
+                        android:text="E-mail:" /&gt;
+                
+                    &lt;EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        <mark>android:layout_toRightOf="@+id/lblEmail"</mark>
+                        android:layout_below="@id/txtNome"
+                        android:id="@+id/txtEmail" /&gt;
+                
+                    &lt;TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        <mark>android:layout_below="@id/txtEmail"</mark>
+                        android:text="Sugestão"
+                        android:id="@+id/lblSugestao"
+                        android:layout_marginTop="15dip"/&gt;
+                
+                    &lt;EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        <mark>android:layout_below="@id/lblSugestao"</mark>
+                        <mark>android:layout_above="@id/btnEnviar"</mark>
+                        android:id="@+id/txtSugestao"/&gt;
+                
+                    &lt;Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        <mark>android:layout_alignParentRight="true"</mark>
+                        <mark>android:layout_alignParentBottom="true"</mark>
+                        android:id="@+id/btnEnviar"
+                        android:text="Enviar"/&gt;
+                
+                    &lt;Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        <mark>android:layout_toLeftOf="@+id/btnEnviar"</mark>
+                        <mark>android:layout_below="@id/txtSugestao"</mark>
+                        android:text="Limpar"/&gt;
+                    
+                &lt;/<mark>RelativeLayout</mark>&gt;
+                               
+        </code></pre>
+    </div>
+    <img data-src="img/05_gui/relative_layout.png" alt="">
+</section>
+
+<section class="reference">
+        <h2>Referência Complementar</h2>
+        <ul>
+            <li><a href="https://developer.android.com/guide/topics/ui/declaring-layout.html#AdapterViews">Android Guide: Layouts</a></li>
+            <li><a href="https://www.devmedia.com.br/android-layouts-aprendendo-tecnicas-de-layout-no-android/30790">DevMedia: Técnicas de Layout</a></li>
+        </ul>
+    </section>
+
+<!-- ----------------------------------------------- GUI pt. 2: Layouts com Adapter ----------------------------------------------- -->
+
+<section>
+    <h1>GUI &mdash; Layouts & Adaptadores</h1>
+</section>
+    
+
+<!-- ----------------------------------------------- GUI pt. 3: Widgets ----------------------------------------------- -->
+
+
