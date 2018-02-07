@@ -557,20 +557,421 @@
 </section>
 
 <section class="reference">
-        <h2>Referência Complementar</h2>
-        <ul>
-            <li><a href="https://developer.android.com/guide/topics/ui/declaring-layout.html#AdapterViews">Android Guide: Layouts</a></li>
-            <li><a href="https://www.devmedia.com.br/android-layouts-aprendendo-tecnicas-de-layout-no-android/30790">DevMedia: Técnicas de Layout</a></li>
-        </ul>
-    </section>
+    <h2>Referência Complementar</h2>
+    <ul>
+        <li><a href="https://developer.android.com/guide/topics/ui/declaring-layout.html#AdapterViews">Android Guide: Layouts</a></li>
+        <li><a href="https://www.devmedia.com.br/android-layouts-aprendendo-tecnicas-de-layout-no-android/30790">DevMedia: Técnicas de Layout</a></li>
+    </ul>
+</section>
 
-<!-- ----------------------------------------------- GUI pt. 2: Layouts com Adapter ----------------------------------------------- -->
+<!-- ----------------------------------------------- GUI pt. 2: Widgets ----------------------------------------------- -->
 
 <section>
-    <h1>GUI &mdash; Layouts & Adaptadores</h1>
+    <h1>Widgets</h1>
 </section>
+
+<section>
+    <h2>Widgets</h2>
+    <ul>
+        <li>O Android possui uma série de componentes visuais para serem utilizados no desenvolvimento do aplicativo</li>
+        <li>Esses componentes são chamados de <b>widgets</b></li>
+        <li>São recuperados no código através do método <code>findViewById</code></li>
+    </ul>
+</section>
+
+<section>
+    <h2>Widgets</h2>
+    <ol>
+        <li>Botões</li>
+        <li>Campos de Texto</li>
+        <li>Caixas de seleção</li>
+        <li>Dialogs</li>
+    </ol>
+</section>
+
+<section>
+    <h2>Botões</h2>
+    <p>Utilizado para disparar ações a partir da confirmação do usuário</p>
+    <p>Ações são disparadas através do método <code>setOnClickListener</code></p>
+    <table>
+        <tr>
+            <td><code>android.widget.Button</code></td>
+            <td>Botão convencional</td>
+        </tr>
+        <tr>
+            <td><code>android.widget.ImageButton</code></td>
+            <td>Utiliza imagem para ser renderizado na tela</td>
+        </tr>
+    </table>
+</section>
+
+<section>
+    <h2>Botões</h2>
+    <pre data-file="Activity.xml"><code data-trim data-noescape class="xml">
+        &lt;Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            <mark>android:text="@string/btn_enviar"</mark>
+            android:id="@+id/btnOk"/&gt;
+
+        &lt;ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            <mark>android:src="@drawable/ic_launcher_foreground" </mark>
+            android:id="@+id/btnImg" /&gt;
+    </code></pre>
+    <pre data-file="Activity.java"><code data-trim class="java">
+        Button btnEnviar = findViewById(R.id.btnEnviar);
+        ImageButton btnImg = findViewById(R.id.btnImg);
+
+        btnEnviar.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                // Ação que será disparada
+            }
+        });
+        
+        btnImg.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                // Ação que será disparada
+            }
+        });
+    </code></pre>
     
+</section>
 
-<!-- ----------------------------------------------- GUI pt. 3: Widgets ----------------------------------------------- -->
+<section>
+    <h2>Campos de Texto</h2>
+    <p>Campos onde o usuário irá visualizar ou fornecer texto</p>
+    <table>
+        <tr>
+            <td><code>android.widget.TextView</code></td>
+            <td>Label padrão do Android</td>
+        </tr>
+        <tr>
+            <td><code>android.widget.EditText</code></td>
+            <td>Campo de texto padrão do Android</td>
+        </tr>
+        <tr>
+            <td><a href="https://developer.android.com/reference/android/widget/AutoCompleteTextView.html"><code>android.widget.AutoCompleteTextView</code></a></td>
+            <td>Campo de texto com funcionalidade de auto-complete embutida</td>
+        </tr>
+    </table>
+</section>
 
+<section>
+    <h2>Campos de Texto</h2>
+    <pre data-file="Activity.xml"><code data-trim data-noescape class="xml">
+        &lt;TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            <mark>android:text="@string/lbl_nome"</mark>
+            android:id="@+id/lblNome"/&gt;
 
+        &lt;EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            <mark>android:inputType="text"</mark>
+            android:id="@+id/txtNome" /&gt;
+    </code></pre>
+</section>
+
+<section>
+    <h2>Caixas de Seleção</h2>
+    <p>Permitem a seleção de valores previamente definidos</p>
+    <table>
+        <tr>
+            <td><code>android.widget.CheckBox</code></td>
+            <td>Caixa de seleção múltipla</td>
+        </tr>
+        <tr>
+            <td><code>android.widget.ToggleButton</code></td>
+            <td>Assume dois possíveis valores (Ativado ou Desativado)</td>
+        </tr>
+        <tr>
+            <td><a href="https://developer.android.com/reference/android/widget/RadioButton.html"><code>android.widget.RadioButton</code></a></td>
+            <td>Seleciona um único valor dentre vários disponíveis</td>
+        </tr>
+        <tr>
+            <td><a href="https://developer.android.com/reference/android/widget/Spinner.html"><code>android.widget.Spinner</code></a></td>
+            <td>Seleciona um único valor a partir de uma lista pré-definida</td>
+        </tr>
+    </table>
+</section>
+
+<section>
+    <h2>Caixas de Seleção</h2>
+    <pre data-file="Activity.xml"><code data-trim data-noescape class="xml">
+        &lt;CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/chk_emails"
+            android:id="@+id/chkEmails" /&gt;
+
+        &lt;ToggleButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            <mark>android:textOn="@string/on"</mark>
+            <mark>android:textOff="@string/off"</mark>
+            android:id="@+id/tglWifi" /&gt;
+    </code></pre>
+    <pre data-file="Activity.java"><code data-trim data-noescape class="java">
+        CheckBox sendEmail = findViewById(R.id.chkEmails);
+        ToggleButton tglWifi = findViewById(R.id.tglWifi);
+        
+        if(<mark>sendEmail.isSelected()</mark> && <mark>tglWifi.isChecked()</mark>) {
+            // Envia e-mail se toggle de wifi estiver ativado    
+        }
+    </code></pre>
+</section>
+
+<section id="dialogs">
+    <style>
+        #dialogs .box {
+            background-color: #fff2a8;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+            padding: 0.3em;
+            text-align: left;
+
+            position: fixed;
+            left: 0%;
+            top: 68%;
+            width: 25%;
+            text-align: center;
+        }
+    </style>
+    <h2>Dialogs</h2>
+    <p>Pop-ups que aparecem na tela do usuário</p>
+    <p>Objetivos: Informar usuário ou requisitar a inserção de dados complexos</p>
+    <p>Herdam da classe <code>android.app.Dialog</code></p>
+    <p>São criados diretamente em código</p>
+    <div class="box">
+        Todos os Dialogs são <b>Layouts</b>, porém com componentes e ações já pré-definidos!!
+    </div>
+</section>
+
+<section>
+    <h2>Dialogs</h2>
+    <table>
+        <tr>
+            <td><code>android.app.AlertDialog</code></td>
+            <td>Caixa de diálogo genérica</td>
+        </tr>
+        <tr>
+            <td><code><a href="https://developer.android.com/reference/android/app/ProgressDialog.html">android.app.ProgressDialog</a></code></td>
+            <td>Exibe uma barra de progresso</td>
+        </tr>
+        <tr>
+            <td><a href="https://developer.android.com/reference/android/app/TimePickerDialog.html"><code>android.app.TimePickerDialog</code></a></td>
+            <td>Exibe um picker de tempo</td>
+        </tr>
+        <tr>
+            <td><a href="https://developer.android.com/reference/android/app/DatePickerDialog.html"><code>android.widget.DatePickerDialog</code></a></td>
+            <td>Exibe um picker de data</td>
+        </tr>
+    </table>
+</section>
+
+<section id="alertDialog">
+        <style>
+            #alertDialog #builderBox {
+                background-color: #fff2a8;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+                padding: 0.3em;
+                text-align: left;
+    
+                position: fixed;
+                left: 55%;
+                top: 20%;
+                width: 20%;
+                text-align: center;
+            }
+
+            #alertDialog #toastBox {
+                background-color: #B7FFCB;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+                padding: 0.3em;
+                text-align: left;
+    
+                position: fixed;
+                right: 18%;
+                top: 68%;
+                width: 15%;
+                text-align: center;
+            }
+        </style>
+    <h2>Dialogs</h2>
+    <pre data-file="Activity.java"><code data-noescape data-trim class="java" style="max-height: 100%;">
+        //Criador de Dialog
+        <mark>AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);</mark>
+
+        // Define Parâmetros para o Dialog
+        alertBuilder.setIcon(R.drawable.ic_launcher_foreground);
+        alertBuilder.setTitle("Aviso!");
+        alertBuilder.setMessage("Cuidado, isso pode acarretar em algo.");
+
+        // Define o que acontece quando o usuário seleciona a opção positiva
+        alertBuilder.setPositiveButton("Estou ciente!", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                <mark class="green">Toast.makeText(getBaseContext(), "Fique por sua conta e risco", Toast.LENGTH_LONG).show();</mark>
+            }
+        });
+
+        // Define o que acontece quando o usuário seleciona a opção negativa
+        alertBuilder.setPositiveButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                <mark class="green">Toast.makeText(getBaseContext(), "Muito bem!!", Toast.LENGTH_LONG).show();</mark>
+            }
+        });
+
+        // cria o dialog e o exibe na tela
+        <mark>AlertDialog dialog = alertBuilder.create();</mark>
+        <mark>dialog.show();</mark>
+    </code></pre>
+    <div id="builderBox" class="fragment">
+        Builder também é um padrão de projeto!!
+    </div>
+    <div id="toastBox" class="fragment">
+        o que esse <code>Toast</code> faz??
+    </div>
+</section>
+
+<section>
+    <h2>One More Thing...</h2>
+</section>
+
+<section>
+    <h2>Internacionalização</h2>
+    <p>O Android possui suporte nativo a internacionalização</p>
+    <p>Para isso, basta criar um arquivo <code>strings.xml</code> por idioma</p>
+    <p>O arquivo <code>strings.xml</code> contém a lista de mensagens a serem traduzidas</p>
+</section>
+
+<section id="i18nExample">
+    <style>
+        #i18nExample .left {
+            float: left;
+            width: 70%;
+        }
+
+        #i18nExample img {
+            position: fixed;
+            right: 0%;
+            top: 0%;
+        }
+    </style>
+    <div class="left">
+        <h2>Internacionalização</h2>
+        <pre data-file="/res/values/strings.xml"><code data-trim data-noescape class="xml">
+            &lt;resources&gt;
+                &lt;string name="btn_enviar"&gt;Send&lt;/string&gt;
+                &lt;string name="lbl_nome"&gt;Name:&lt;/string&gt;
+                &lt;string name="chk_emails"&gt;Receive e-mails&lt;/string&gt;
+            &lt;/resources&gt;        
+        </code></pre>
+        <pre data-file="/res/values-pt/strings.xml"><code data-trim data-noescape class="xml">
+            &lt;resources&gt;
+                &lt;string name="btn_enviar"&gt;Enviar&lt;/string&gt;
+                &lt;string name="lbl_nome"&gt;Nome:&lt;/string&gt;
+                &lt;string name="chk_emails"&gt;Receber e-mails&lt;/string&gt;
+            &lt;/resources&gt;        
+        </code></pre>
+    </div>
+    <img data-src="img/05_gui/i18n.png" alt="">
+</section>
+
+<section>
+    <h2>Estilização</h2>
+    <p>Também é possível manter um arquivo de configuração para cores e estilo do aplicativo</p>
+    <ul>
+        <li><code>colors.xml</code> permite definir cores</li>
+        <li><code>css.xml</code> permite definir estilos customizados</li>
+    </ul>
+</section>
+
+<section id="colorsExample">
+    <style>
+        #colorsExample .left {
+            float: left;
+            width: 70%;
+        }
+        #colorsExample img {
+            position: fixed;
+            right: 0%;
+            top: 0%;
+        }        
+    </style>
+    <div class="left">
+        <h2>Estilização &mdash; <code>colors.xml</code></h2>
+        <pre data-file="/res/values/colors.xml"><code data-trim data-noescape class="xml">
+            &lt;resources&gt;
+                &lt;color name="colorPrimary"&gt;#3F51B5&lt;/color&gt;
+                &lt;color name="colorPrimaryDark"&gt;#303F9F&lt;/color&gt;
+                &lt;color name="colorAccent"&gt;#FF4081&lt;/color&gt;
+            &lt;/resources&gt;
+        </code></pre>
+        <pre data-file="Activity.xml"><code data-trim data-noescape class="xml">
+            &lt;TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                <mark>android:textColor="@color/colorPrimary"</mark>
+                android:text="Um Texto Qualquer"
+                android:id="@+id/lblTitulo" /&gt;
+        </code></pre>
+        <pre data-file="Activity.java"><code data-trim data-noescape class="java">
+            ...
+            TextView lblTitulo = findViewById(R.id.lblTitulo);
+            <mark>lblTitulo.setTextColor(getResources().getColor(R.color.colorPrimary));</mark>
+            ...
+        </code></pre>
+    </div>
+    <img data-src="img/05_gui/colors.png" alt="">
+</section>
+
+<section id="cssExample">
+    <style>
+        #cssExample .left {
+            float: left;
+            width: 70%;
+        }
+        #cssExample img {
+            position: fixed;
+            right: 0%;
+            top: 0%;
+        }        
+    </style>
+    <div class="left">
+        <h2>Estilização &mdash; <code>css.xml</code></h2>
+        <pre data-file="/res/values/css.xml"><code data-trim data-noescape class="xml">
+            &lt;resources&gt;
+                &lt;style name="tituloTela"&gt;
+                    &lt;item name="android:textSize"&gt;24dp&lt;/item&gt;
+                    &lt;item name="android:padding"&gt;15dp&lt;/item&gt;
+                    <mark>&lt;item name="android:background"&gt;@color/colorPrimary&lt;/item&gt;</mark>
+                    &lt;item name="android:textColor"&gt;#fff&lt;/item&gt;
+                &lt;/style&gt;
+            &lt;/resources&gt;
+        </code></pre>
+        <pre data-file="Activity.xml"><code data-trim data-noescape class="xml">
+            &lt;TextView
+                <mark>style="@style/tituloTela"</mark>
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Meu Título"
+                android:id="@+id/lblTitulo" /&gt;
+        </code></pre>
+    </div>
+    <img data-src="img/05_gui/css.png" alt="">
+</section>
+
+<section class="reference">
+    <h2>Referência Complementar</h2>
+    <ul>
+        <li><a href="https://developer.android.com/reference/android/widget/package-summary.html">Android API: Widgets</a></li>
+        <li><a href="https://developer.android.com/guide/topics/ui/dialogs.html?hl=pt-br">Android Guide: Dialogs</a></li>
+        <li><a href="https://lingohub.com/frameworks-file-formats/android-i18n-android-studio/">Blog Post: Internacionalização com Android Studio</a></li>
+    </ul>
+</section>
+
+<!-- ----------------------------------------------- GUI pt. 3: Layouts com Adapter ----------------------------------------------- -->
