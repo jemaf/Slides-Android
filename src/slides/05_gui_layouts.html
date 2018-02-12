@@ -975,3 +975,298 @@
 </section>
 
 <!-- ----------------------------------------------- GUI pt. 3: Layouts com Adapter ----------------------------------------------- -->
+
+<section>
+    <h1>GUI &mdash; Layouts & Adaptadores</h1>
+</section>
+    
+<section>
+    <h2>Layouts & Adaptadores</h2>
+    <ul style="padding-left: 10%; padding-right: 10%">
+        <li>Alguns Layouts podem ter seu conteúdo carregado dinamicamente</li>
+        <li><code>AdapterView</code> é uma classe de layouts cujo seu conteúdo pode ser "injetado" durante execução do aplicativo</li>
+        <li>O carregamento das informações se dá através de um <code>Adapter</code></li>
+    </ul>
+</section>
+
+<section id="adapterDp">
+    <style>
+        #adapterDp #dpBook {
+            position: fixed;
+            right: 0%;
+            top: -2%;
+        }
+    </style>
+    <h2>O Padrão Adapter</h2>
+    <img class="stretch" data-src="img/05_gui/adapter.jpg" alt="">
+    <img id="dpBook" data-src="img/05_gui/heads_first_dp.jpg" alt="">
+</section>
+
+<section>
+    <h2>Layouts & Adaptadores</h2>
+    <p>Layouts que são implementados em conjunto com adaptadores:</p>
+    <p class="fragment grow"><code><a href="https://developer.android.com/guide/topics/ui/layout/listview.html?hl=pt-br">ListView</a></code></p>
+    <p><code><a href="https://developer.android.com/guide/topics/ui/layout/gridview.html?hl=pt-br">GridView</a></code></p>
+</section>
+    
+<section>
+    <h2>ListView</h2>
+    <p>Utilizada para exibir itens em lista sequencial</p>
+    <p>Os itens são recuperados a partir do adapter</p>
+    <p>O adapter também permite customizar a aparência dos itens da lista</p>
+</section>
+
+<section>
+    <h2>Utilizando o ListView</h2>
+    <ol>
+        <li>Implementar a classe Java que irá representar o item a ser exibido pela lista</li>
+        <li><p>Implementar classe <code>MyAdapter</code> que herde de <code>BaseAdapter</code></p></li>
+        <ul>
+            <li><p>Você pode customizar o layout dos itens da lista através do método <code>getView()</code></p></li>
+        </ul>
+        <li><p>"Ligar" o <code>MyAdapter</code> a <code>ListView</code> através do método <code>setAdapter()</code></p></li>
+    </ol>
+</section>
+
+<section>
+    <h2>Exemplo ListView</h2>
+    <img data-src="img/05_gui/listview_2.png" style="max-width: 45%;" alt="">
+</section>
+
+<section>
+    <h2>1 &mdash; classe Java</h2>
+    <pre data-file="ProgrammingLanguage.java"><code data-trim class="java">
+        public class ProgrammingLanguage {
+
+            private String name;
+            private String author;
+            private Integer year;
+            
+            public ProgrammingLanguage(String name, String author, Integer year) {
+                this.name = name;
+                this.author = author;
+                this.year = year;
+            }
+            // ... getters e setters
+        }   
+    </code></pre>
+</section>
+
+<section id="adapterClass">
+    <style>
+        #adapterClass .box {
+            background-color: #ffb7b7;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+            padding: 1em;
+            text-align: left;
+
+            position: fixed;
+            right: 25%;
+            top: 15%;
+            width: 15%;
+            text-align: center;
+        }
+    </style>
+    <h2>2 &mdash; Criando o Adaptador</h2>
+    <pre data-file="ProgrammingLanguageAdapter.java"><code data-trim data-noescape class="java" style="max-height: 100%">
+        public class ProgrammingLanguageAdapter extends <mark class="red">BaseAdapter</mark> {
+
+            // lista que conterá a linguagens a serem exibidas
+            <mark>private ArrayList&lt;ProgrammingLanguage&gt; languages;</mark> 
+            private Context context;
+        
+            public ProgrammingLanguageAdapter(Context context) {
+                this.context = context;
+                <mark>languages = new ArrayList&lt;&gt;();</mark>
+                //... carrega dados da lista
+            }
+            @Override
+            public int getCount() {
+                <mark>return this.languages.size();</mark>
+            }
+            @Override
+            public Object getItem(int i) {
+                <mark>return this.languages.get(i);</mark>
+            }
+            @Override
+            public long getItemId(int i) {
+                return i;
+            }
+            @Override
+            public View getView(int i, View view, ViewGroup viewGroup) {
+                ProgrammingLanguage language = this.languages.get(i);
+        
+                // cria o componente que será carregado na lista
+                <mark>TextView lblLanguage = new TextView(this.context);</mark> 
+                lblLanguage.setText(language.getName() + " -- " + language.getAuthor() + " -- " + language.getYear());
+        
+                <mark>return lblLanguage;</mark>
+            }
+        }
+    </code></pre>
+    <div class="box fragment">
+        Sua classe deve herdade de <code>BaseAdapter</code>!!
+    </div>
+</section>
+
+<section id="adapterExample1">
+    <style>
+        #adapterExample1 .left {
+            float: left;
+            width: 65%;
+        }
+        #adapterExample1 img {
+            position: fixed;
+            right: 0%;
+            top: 0%;
+        }
+
+        #adapterExample1 .box {
+            background-color: #531010;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+            padding: 1em;
+            /* font-size: 0.7em; */
+
+            position: fixed;
+            right: 3%;
+            top: 40%;
+            width: 20%;
+            text-align: center;
+        }
+    </style>
+    <div class="left">
+        <h2>3 &mdash; Ligando os pontos</h2>
+        <pre data-file="MyActivity.java"><code data-trim data-noescape>
+            public class MainActivity extends Activity {
+    
+                @Override
+                protected void onCreate(Bundle savedInstanceState) {
+                    super.onCreate(savedInstanceState);
+                    setContentView(R.layout.activity_main);
+            
+                    // faz a ligação entre a ListView e o Adapter
+                    ListView languagesListView = findViewById(R.id.languages_list);
+                    languagesListView.setAdapter(new ProgrammingLanguageAdapter(this));
+                }
+            }
+        </code></pre>
+        <pre data-file="activity_main.xml"><code data-trim data-noescape>
+            &lt;ListView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/languages_list"
+                /&gt;
+        </code></pre>
+    </div>
+    <img data-src="img/05_gui/listview_1.png" alt="">
+    <div class="box fragment"><h3 style="color: white;">Mas que lista horrível!!</h3></div>
+</section>
+
+<section>
+    <h2>Extra &mdash; Modificando a Aparência da Lista</h2>
+    <p>Para personalizar a aparência da lista é necessário:</p>
+    <ol>
+        <li>Criar o layout do item personalizado em um arquivo <code>xml</code></li>
+        <li>Importar dentro do método <code>getView()</code></li>
+    </ol>
+</section>
+
+<section id="adapterExample2_1">
+    <style>
+        #adapterExample2_1 .box {
+            background-color: #fff2a8;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+            padding: 1em;
+
+            position: fixed;
+            right: 8%;
+            top: 40%;
+            width: 20%;
+            text-align: center;
+        }
+    </style>
+    <h2>E.1 &mdash; Layout personalizado</h2>
+    <pre data-file="adapter_languages.xml"><code data-trim data-noescape class="xml" style="max-height: 100%;">
+        &lt;?xml version="1.0" encoding="utf-8"?&gt;
+        &lt;RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="20dp"&gt;
+                
+            &lt;TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                <mark>android:id="@+id/lbl_language_name"</mark>
+                android:textSize="20dp"
+                android:text="My Language"/&gt;
+        
+            &lt;TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                <mark>android:id="@+id/lbl_language_year"</mark>
+                android:textSize="20dp"
+                android:text="1900"/&gt;
+        
+            &lt;TextView
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/lbl_language_name"
+                <mark>android:id="@+id/lbl_language_author"</mark>
+                android:text="A given Author"/&gt;
+        &lt;/RelativeLayout&gt;       
+    </code></pre>
+    <div class="box">
+        Não se esqueça de adicionar <code>id</code> aos componentes!!
+    </div>
+</section>
+
+<section>
+    <h2>E.2 &mdash; Alterando o <code>getView()</code></h2>
+    <pre data-file="ProgrammingLanguageAdapter.java"><code data-trim data-noescape style="max-height:100%;">
+        @Override
+        public View getView(int i, View view, ViewGroup viewGroup) {
+            ProgrammingLanguage currentLanguage = this.languages.get(i);
+    
+            // recupera a view do adapter que será customizada
+            View newView = LayoutInflater.from(this.context).inflate(R.layout.adapter_languages, viewGroup, false);
+    
+            // recupera cada um dos campos do item
+            TextView lblName = newView.findViewById(R.id.lbl_language_name);
+            TextView lblAuthor = newView.findViewById(R.id.lbl_language_author);
+            TextView lblYear = newView.findViewById(R.id.lbl_language_year);
+    
+            // define o valor de cada um dos campos
+            lblName.setText(currentLanguage.getName());
+            lblAuthor.setText(currentLanguage.getAuthor());
+            lblYear.setText(currentLanguage.getYear().toString());
+    
+            return newView;
+        }
+    </code></pre>
+</section>
+
+<section id="adapterExample2_2">
+    <style>
+        #adapterExample2_2 h2 {
+            width: 70%;
+        }
+        #adapterExample2_2 img {
+            position: fixed; 
+            right: 0%; 
+            top: 5%;
+        }
+    </style>
+    <h2>Extra &mdash; Modificando a Aparência da Lista</h2>
+    <img class="stretch" data-src="img/05_gui/listview_2.png" alt="">
+</section>
+
+<section class="reference">
+    <h2>Referência Complementar</h2>
+    <ul>
+        <li><a href="https://developer.android.com/guide/topics/ui/layout/listview.html?hl=pt-br">Android Guide: ListView</a></li>
+        <li><a href="https://developer.android.com/guide/topics/ui/layout/gridview.html?hl=pt-br">Android Guide: GridView</a></li>
+        <li><a href="https://pt.wikipedia.org/wiki/Adapter">Wikipedia: Padrão Adapter</a></li>
+    </ul>
+</section>
