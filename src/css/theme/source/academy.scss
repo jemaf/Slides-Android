@@ -49,6 +49,29 @@ section.darkBackground {
 
 
 /***********************************************
+ * background colors
+ ***********************************************/
+
+code mark, .box {
+    &.yellow {
+        background-color: #fff2a8;
+    }
+
+    &.blue {
+        background-color: #a8d1ff;
+    }
+
+    &.green {
+        background-color: #B7FFCB;
+    }
+
+    &.red {
+        background-color: #ffb7b7;
+    }
+}
+
+
+/***********************************************
  * Title slide
  ***********************************************/
 
@@ -213,22 +236,6 @@ html.watermark .backgrounds {
         color: $linkColorHover;
         padding: 0.3em;
     }
-
-    code mark {
-        background-color: #fff2a8;
-
-        &.blue {
-            background-color: #a8d1ff;
-        }
-
-        &.green {
-            background-color: #B7FFCB;
-        }
-
-        &.red {
-            background-color: #ffb7b7;
-        }
-    }
  }
 
 
@@ -254,4 +261,15 @@ section.reference {
     h2, p {
         text-align: left;
     }
+}
+
+
+/***********************************************
+ * post it
+ ***********************************************/
+ 
+.box {
+    background-color: #fff2a8;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+    padding: 1em;
 }
