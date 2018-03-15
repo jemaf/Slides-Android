@@ -53,9 +53,7 @@ section.darkBackground {
  ***********************************************/
 
 code mark, .box {
-    &.yellow {
-        background-color: #fff2a8;
-    }
+    background-color: #fff2a8;
 
     &.blue {
         background-color: #a8d1ff;
@@ -271,5 +269,6 @@ section.reference {
 .box {
     background-color: #fff2a8;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
-    padding: 1em;
+    padding: 0.5em !important;
+    display: inline;
 }
