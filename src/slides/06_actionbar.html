@@ -1,0 +1,330 @@
+<section class="title" data-background="img/coltec.png" data-state="blur">
+	<h3>COLTEC/UFMG</h3>
+	<h1>ActionBar</h1>
+	<h3>João Eduardo Montandon</h3>
+</section>
+<section>
+    <h2>Introdução</h2>
+    <p>A ActionBar representa o padrão de design mais importante do Android!</p>
+    <p>É responsável por mostrar, de forma consistente, as possíveis ações a serem feitas pelo usuário na tela</p>
+</section>
+<section>
+    <h2>A ActionBar</h2>
+    <img data-src="img/06_actionbar/actionbar.png" alt="" >
+    <div>
+        <ol>
+            <li><b>Up Navigation</b></li>
+            <li>ViewControl</li>
+            <li><b>ActionButtons</b></li>
+            <li><b>ActionOverflow</b></li>
+        </ol>
+    </div>
+</section>
+<section>
+    <h2>Up Navigation</h2>
+    <p>
+        Permite ao usuário navegar para telas anteriores <b>de acordo com a hierarquia de telas</b> do aplicativo
+    </p>
+    <p>Deve ser habilitado na tela que irá retornar a ação</p>
+    <div class="box red" style="position: fixed; top: 70%; right:10%">
+        Up Navigation &NotEqual; Voltar!!
+    </div>
+</section>
+<section>
+    <h2>Up Navigation</h2>
+    <pre data-file="SecondActivity.java"><code data-trim class="java" data-noescape>
+        ...
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_second);
+    
+            <mark>ActionBar actionBar = getActionBar();</mark>
+            <mark>actionBar.setDisplayHomeAsUpEnabled(true);</mark>
+        }
+        ...
+    </code></pre>
+    <div class="box fragment" style="position: fixed; top:80%; right: 5%; width: 10em; z-index: 999;">
+        Porque eu não voltei para a tela anterior???
+    </div>
+    <pre data-file="AndroidManifest.xml" class="fragment"><code data-trim class="xml" data-noescape>
+        &lt;activity android:name=".MainActivity"&gt;
+            &lt;intent-filter&gt;
+                &lt;action android:name="android.intent.action.MAIN" /&gt;
+
+                &lt;category android:name="android.intent.category.LAUNCHER" /&gt;
+            &lt;/intent-filter&gt;
+        &lt;/activity&gt;
+        &lt;activity android:name=".SecondActivity" <mark>android:parentActivityName=".MainActivity"</mark>&gt;&lt;/activity&gt;
+    </code></pre>
+</section>
+<section>
+    <h2>Action Buttons &amp; Action Overflow</h2>
+    <p><b>ActionButtons</b> são Botões que representam as ações mais comuns para serem executadas na tela</p>
+    <p>São enviados automaticamente para o <b>ActionOverflow</b> quando não há espaço disponíve na tela</p>
+    <p>A declaração dos botões são feitos em arquivos <code>xml</code></p>
+    <p>Já as ações são definidas em <code>Java</code></p>
+</section>
+<section id="menuExample">
+    <style>
+        #menuExample .left {
+            float: left;
+            width: 70%;
+        }
+        #menuExample code {
+            max-height: 100%;
+        }
+        #menuExample img {
+            position: fixed;
+            right: 0%;
+            top: 0%;
+        }
+
+        #menuExample div.box {
+            position: fixed;
+            right: 3%;
+            width: 10em;
+            top: 40%;
+        }
+    </style>
+    <div class="left">
+        <h2>Declarando os Botões</h2>
+        <pre data-file="res/menu/menu_main.xml"><code class="xml" data-noescape data-trim>
+            &lt;?xml version="1.0" encoding="utf-8"?&gt;
+            &lt;menu xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:android="http://schemas.android.com/apk/res/android"&gt;
+            
+                &lt;item android:id="@+id/action_search"
+                    android:icon="@drawable/ic_action_search"
+                    android:title="@string/search"
+                    android:showAsAction="always" /&gt;
+            
+                &lt;item android:id="@+id/action_refresh"
+                    android:icon="@drawable/ic_action_refresh"
+                    android:title="@string/refresh"
+                    android:showAsAction="always" /&gt;
+            
+                &lt;item android:id="@+id/action_settings"
+                    android:icon="@drawable/ic_action_settings"
+                    android:title="@string/settings"
+                    android:showAsAction="never" /&gt;
+            &lt;/menu&gt;
+        </code></pre>
+        <pre data-file="MainActivity.java"><code class="java" data-noescape data-trim>
+            ...
+            @Override
+            public boolean onCreateOptionsMenu(Menu menu) {
+                // infla menu na tela
+                getMenuInflater().inflate(R.menu.menu_main, menu);
+    
+                return super.onCreateOptionsMenu(menu);
+            }
+            ...
+        </code></pre>
+    </div>
+    <div>
+        <img data-src="img/06_actionbar/menu_main.png" alt="">
+    </div>
+    <div class="box fragment">
+        Porque o botão de preferências não foi exibido???
+    </div>
+</section>
+<section id="actionButtonExample">
+    <style>
+        #actionButtonExample .left {
+            float: left;
+            width: 70%;
+        }
+        #actionButtonExample code {
+            max-height: 100%;
+        }
+        #actionButtonExample img {
+            position: fixed;
+            right: 0%;
+            top: 0%;
+        }
+    </style>
+    <div class="left">
+        <h2>Definindo as ações dos botões</h2>
+        <pre data-file="MainActivity.java"><code data-trim data-noescape class="java">
+            ...
+            @Override
+            public boolean onOptionsItemSelected(MenuItem item) {
+                // recupera id do item selecionado
+                int id = item.getItemId();
+        
+                // verifica qual é o botão selecionado com base no id
+                switch (id) {
+                    case R.id.action_search:
+                        Toast.makeText(this, "Clicou no search", Toast.LENGTH_SHORT).show();
+                        return true;
+                    case R.id.action_refresh:
+                        Toast.makeText(this, "Clicou no refresh", Toast.LENGTH_SHORT).show();
+                        return true;
+                    case R.id.action_settings:
+                        Toast.makeText(this, "Clicou no settings", Toast.LENGTH_SHORT).show();
+                        return true;
+                    default:
+                        return super.onOptionsItemSelected(item);
+                }
+            }
+            ...
+        </code></pre>
+    </div>
+    <img data-src="img/06_actionbar/menu_action_button.png" alt="">
+</section>
+<section>
+    <h2>SearchView</h2>
+    <ul>
+        <li>A <code>SearchView</code> é uma <code>view</code> customizada voltada especificamente para ações de busca.</li>
+        <li>Ao tocar no botão de busca, um campo de texto é expandido automaticamente!!</li>
+        <li>Para utilizá-la, deve-se customizar:</li>
+        <ol>
+            <li>A propriedade <code>android:actionViewClass</code> no arquivo de menu</li>
+            <li>O método <code>setOnQueryTextListener</code> na classe Java</li>
+        </ol>
+    </ul>
+    
+</section>
+<section>
+    <h2>SearchView  &mdash; XML</h2>
+    <pre data-file="res/menu/menu_main.xml"><code data-trim data-noescape class="xml">
+        &lt;menu xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:android="http://schemas.android.com/apk/res/android"&gt;
+        
+            &lt;item android:id="@+id/action_search"
+                android:icon="@drawable/ic_action_search"
+                android:title="@string/search"
+                android:showAsAction="always"
+                <mark>android:actionViewClass="android.widget.SearchView"</mark>/&gt;
+        ...
+        &lt;/menu&gt;
+    </code></pre>
+</section>
+<section id="searchViewExample">
+    <style>
+        #searchViewExample .left {
+            float: left;
+            width: 70%;
+        }
+        #searchViewExample code {
+            max-height: 100%;
+        }
+        #searchViewExample img {
+            position: fixed;
+            right: 0%;
+            top: 0%;
+        }
+    </style>
+    <div class="left">
+        <h2>SearchView  &mdash; Java</h2>
+        <pre data-file="MainActivity.java"><code data-trim data-noescape class="java">
+            ...
+            @Override
+            public boolean onCreateOptionsMenu(Menu menu) {
+                getMenuInflater().inflate(R.menu.menu_main, menu);
+                
+                // busca pelo SearchView e customiza suas ações
+                <mark>MenuItem item = menu.findItem(R.id.action_search);</mark>
+                <mark>SearchView searchView = (SearchView) item.getActionView();</mark>
+                <mark>searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {</mark>
+                    @Override
+                <mark>    public boolean onQueryTextSubmit(String s) {</mark>
+                <mark>        Toast.makeText(MainActivity.this, "Buscar o texto: " + s, Toast.LENGTH_SHORT).show();</mark>
+                <mark>        return false;</mark>
+                <mark>    }</mark>
+                    
+                    @Override
+                <mark>    public boolean onQueryTextChange(String s) {</mark>
+                <mark>        // executado enquanto texto é alterado pelo usuário</mark>
+                <mark>        return false;</mark>
+                <mark>    }</mark>
+                <mark>});</mark>
+                
+                return true;
+            }
+            ...
+        </code></pre>
+    </div>
+    <img data-src="img/06_actionbar/menu_search_view.png" alt="">
+</section>
+<section>
+    <h2>ActionProvider</h2>
+    <p>Os <code>ActionProvider</code>s utilizam seu próprio layout quando acionado pelo usuário</p>
+    <p>O <code>ActionProvider</code> mais comum utilizado é o de compartilhamento (<code>android.widget.ShareActionProvider</code>)</p>
+</section>
+<section>
+    <h2>ActionProvider  &mdash; XML</h2>
+    <pre data-file="res/menu/menu_main.xml"><code data-trim data-noescape class="xml" style="max-height: 100%;">
+        &lt;?xml version="1.0" encoding="utf-8"?&gt;
+        &lt;menu xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:android="http://schemas.android.com/apk/res/android"&gt;
+        
+            &lt;item android:id="@+id/action_search"
+                android:icon="@drawable/ic_action_search"
+                android:title="@string/search"
+                android:showAsAction="always"
+                android:actionViewClass="android.widget.SearchView"/&gt;
+        
+            <mark>&lt;item android:id="@+id/action_share"</mark>
+            <mark>    android:icon="@drawable/ic_launcher_background"</mark>
+            <mark>    android:title="@string/share"</mark>
+            <mark>    android:showAsAction="always"</mark>
+            <mark>    android:actionProviderClass="android.widget.ShareActionProvider" /&gt;</mark>
+        
+            ...
+        &lt;/menu&gt;
+    </code></pre>
+</section>
+<section id="actionProviderExample">
+    <style>
+        #actionProviderExample .left {
+            float: left;
+            width: 70%;
+        }
+        #actionProviderExample code {
+            max-height: 100%;
+        }
+        #actionProviderExample img {
+            position: fixed;
+            right: 0%;
+            top: 0%;
+        }
+    </style>
+    <div class="left">
+        <h2>SearchView  &mdash; Java</h2>
+        <pre data-file="MainActivity.java"><code data-trim data-noescape class="java">
+            ...
+            @Override
+            public boolean onCreateOptionsMenu(Menu menu) {
+                getMenuInflater().inflate(R.menu.menu_main, menu);
+        
+                MenuItem item = menu.findItem(R.id.action_search);
+                ...
+
+                // recupera share provider
+                <mark>MenuItem shareItem = menu.findItem(R.id.action_share);</mark>
+                <mark>ShareActionProvider shareProvider = (ShareActionProvider) shareItem.getActionProvider();</mark>
+        
+                // criar intent que será exibida pelo provider
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("text/*");
+                intent.putExtra(Intent.EXTRA_TEXT, "Texto para Compartilhar");
+        
+                // exibe a intent
+                <mark>shareProvider.setShareIntent(intent);</mark>
+        
+                return true;
+            }
+            ...
+        </code></pre>
+    </div>
+    <img data-src="img/06_actionbar/menu_action_provider.png" alt="">
+</section>
+<section class="reference">
+    <h2>Referência Complementar</h2>
+    <ul>
+        <li><a href="https://developer.android.com/design/patterns/actionbar.html">Android Guide: Action Bar</a></li>
+        <li><a href="https://guides.codepath.com/android/Extended-ActionBar-Guide">Vogella: Extended ActionBar Guide</a></li>
+        <li><a href="https://developer.android.com/training/appbar/action-views.html">Android: ActionView &amp; ActionProviders</a></li>
+    </ul>
+</section>
