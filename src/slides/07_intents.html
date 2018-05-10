@@ -1,0 +1,332 @@
+<section class="title" data-background="img/coltec.png" data-state="blur">
+	<h3>COLTEC/UFMG</h3>
+	<h1>Intents</h1>
+	<h3>João Eduardo Montandon</h3>
+</section>
+<section data-background="https://media.giphy.com/media/XJzlSfuuX1qI8/giphy.gif" class="darkBackground" data-state="dark">
+    <blockquote style="border-left: 25px solid rgba(255, 255, 255, 0.6);">
+        Não ligue para a gente, nós ligaremos para você.
+        <footer style="color: white;">O Princípio de Hollywood</footer>
+    </blockquote>
+</section>
+<section>
+    <h2>Programação Intencional</h2>
+    <ul>
+        <li>
+            Paradigma de programação onde ações são definidas através de intenções, e então o sistema onde o programa é executado decide como essa ação será executada.  
+        </li>
+        <li>
+            Desenvolvedor: Escolhe <b>qual</b> ação será executada.
+        </li>
+        <li>
+            Sistema: Verifica <b>como</b> essa ação será executada.
+        </li>
+    </ul>
+</section>
+<section id="intentsIntro">
+    <style>
+        #intentsIntro .box {
+            position: fixed;
+            right: 0%;
+            bottom: 10%;
+            width: 10em;
+        }
+    </style>
+    <h2>Intents</h2>
+    <p>No Android, toda e qualquer ação enviada ao S.O. é empacotada através de uma Intent:</p>
+    <ul>
+        <li>Abrir uma nova tela</li>
+        <li>Ligar para um determinado número</li>
+        <li>Abrir o navegador</li>
+        <li>Traçar rotas no aplicativo de mapas</li>
+        <li>Integrar diferentes aplicações</li>
+        <li>Tirar fotos, gravar vídeos, etc...</li>
+    </ul>
+    <div class="box">
+        As Intents são mensagens da aplicação para S.O., solicitando que alguma ação seja realizada.
+    </div>
+</section>
+<section>
+    <h2>Intents</h2>
+    <p>As mensagens enviadas pelas Intents podem ser tratadas pelo S.O. de duas formas:</p>
+    <ol style="max-width: 70%">
+        <li>
+            <b>Explícita:</b> Especifica exatamente qual componente será inicializado a partir da Intent.
+        </li>
+        <li>
+            <b>Implícita:</b> Declara a ação que será realizada, e então o S.O. selecionará quais aplicativos podem tratar essa ação.
+        </li>
+    </ol>
+</section>
+<section id="intentsExample">
+    <style>
+        #intentsExample .left{
+            float: left;
+            width: 50%;
+
+        }
+
+        #intentsExample .right{
+            float: right;
+            width: 50%;
+        }
+
+        #intentsExample .box {
+            position: fixed;
+            width: 10em;
+            right: 0%;
+            top: 10%;
+        }
+    </style>
+    <h2>Intents</h2>
+    <div class="left">
+        <p>Explícita</p>
+        <pre><code class="java" data-noescape data-trim>
+            // Exemplo de Intent Explícita
+            Intent intent = new Intent(getContext(), Activity.class);
+            intent.putExtra("value", valor)
+            startActivity(intent);
+        </code></pre>
+        <p>
+            Utilizado para inicializar componentes <b>dentro</b> da própria aplicação.
+        </p>
+    </div>
+    <div class="right">
+        <p>Implícita</p>
+        <pre><code class="java" data-noescape data-trim>
+            // Exemplo de Intent Implícita
+            Uri params = Uri.parse("uri:XXXXXXXXXXXXXX");
+            Intent intent = new Intent("Ação", params);
+            startActivity(intent);
+        </code></pre>
+        <p>
+            Utilizado para se comunicar com componentes <b>externos</b> a sua aplicação.
+        </p>
+    </div>
+    <div class="box">
+       Focaremos nas Intents Implícitas!!
+    </div>
+</section>
+<section>
+    <h1>Intents Implícitas</h1>
+</section>
+<section>
+    <h2>Intents Implícitas</h2>
+    <p>Permitem executar ações em componentes externos a sua aplicação.</p>
+    <ul>
+        <li>
+            <b>Nativas:</b> Ações disponibilizadas nativamente pelo Sistema Operacional do Android.
+            <p>Exemplo: Fazer ligações.</p>
+        </li>
+        <li>
+            <b>Customizada:</b> Ações que podem ser disponibilizadas por desenvolvedores de outros aplicativos.
+            <p>Exemplo: Leitura de Código de Barras.</p>
+        </li>
+    </ul>
+</section>
+<section>
+    <h2>Intents Nativas</h2>
+    <table>
+        <thead>
+            <td><b>Mensagem</b></td>
+            <td><b>Descrição</b></td>
+        </thead>
+        <tr>
+            <td><code>ACTION_DIAL</code></td>
+            <td>Abre o discador com número a ser discado</td>
+        </tr>
+        <tr>
+            <td><code>ACTION_SEND</code></td>
+            <td>Envia dados de uma aplicação a outra (e-mails, por exemplo)</td>
+        </tr>
+        <tr>
+            <td><code>ACTION_SENDTO</code></td>
+            <td>Envia dados para alguém em específico (SMS, por exemplo)</td>
+        </tr>
+        <tr>
+            <td><code>ACTION_VIEW</code></td>
+            <td>Envia informações para serem visualizadas por outro aplicativo (Maps, browser, agenda, etc.)</td>
+        </tr>
+        <tr>
+            <td><code>ACTION_IMAGE_CAPTURE</code></td>
+            <td>Abre o aplicativo de câmera para tirar fotos</td>
+        </tr>
+    </table>
+    <p>
+        <small>
+            A lista completa de ações nativas podem ser visualizadas neste <a href="https://developer.android.com/reference/android/content/Intent#standard-activity-actions">link</a>.
+        </small>
+    </p>
+</section>
+<section>
+    <h2>Intents Nativas &mdash; Abrindo Mapa</h2>
+    <pre data-file="MainActivity.java"><code class="java" data-noescape data-trim>
+        Button mapaBtn = findViewById(R.id.btn_mapa);
+
+        mapaBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                <mark>Uri uri = Uri.parse("geo:0,0?q=COLTEC UFMG");</mark>
+                <mark>Intent intent = new Intent(Intent.ACTION_VIEW, uri);</mark>
+                <mark>startActivity(intent);</mark>
+            }
+        });    
+    </code></pre>
+</section>
+<section id="intentCallExample">
+    <style>
+        #intentCallExample .box {
+            position: fixed;
+            width: 10em;
+            bottom: 8%;
+            left: 30%;
+        }
+    </style>
+    <h2>Intents Nativas &mdash; Fazendo uma Ligação</h2>
+    <pre data-file="MainActivity.java"><code class="java" data-noescape data-trim>
+        Button ligarBtn = findViewById(R.id.btn_ligar);
+
+        ligarBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                <mark>Uri uri = Uri.parse("tel:12345678");</mark>
+                <mark>Intent intent = new Intent(Intent.ACTION_DIAL, uri);</mark>
+                <mark>startActivity(intent);</mark>
+            }
+        });    
+    </code></pre>
+    <pre data-file="AndroidManifest.xml"><code class="xml" data-noescape data-trim>
+        &lt;manifest ...&gt;
+            <mark>&lt;uses-permission android:name="android.permission.CALL_PHONE" /&gt;</mark>
+        
+            &lt;application ...&gt;
+                ...
+            &lt;/application&gt;
+        &lt;/manifest&gt;
+    </code></pre>
+    <div class="box red fragment">
+        Algumas Intents requerem a permissão explícita do S.O. para funcionar!!
+    </div>
+</section>
+<section id="intentPhotoExample">
+    <style>
+        #intentPhotoExample .box {
+            position: fixed;
+            width: 6em;
+            top: 40%;
+            right: 8%;
+        }
+
+        #intentPhotoExample .left {
+            float: left;
+            width: 70%
+        }
+
+        #intentPhotoExample img {
+            position: fixed;
+            right: 0%;
+            top: 0%;
+        }
+    </style>
+    <div class="left">
+        <h2>Intents Nativas &mdash; Tirando Fotos</h2>
+        <pre data-file="MainActivity.java"><code class="java" data-noescape data-trim>
+            Button fotoBtn = findViewById(R.id.btn_foto);
+    
+            fotoBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    <mark>Intent fotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);</mark>
+                    <mark>startActivity(fotoIntent);</mark>
+                }
+            });    
+        </code></pre>
+    </div>
+    <div class="right">
+        <img src="img/07_intents/intent_photo.png" alt="" srcset="">
+    </div>
+    <div class="box fragment">
+        Onde a foto foi parar??
+    </div>
+</section>
+<section>
+    <h2>Intents &mdash; Recebendo Resultados</h2>
+    <p>
+        Determinadas Intents retornam algum dado como resposta:
+    </p>
+    <ul>
+        <li>A Câmera retorna a foto que foi tirada</li>
+        <li>A agenda retorna o contato selecionado</li>
+    </ul>
+</section>
+<section>
+    <h2><code>startActivityForResult</code></h2>
+    <p>
+        O método <code>startActivityForResult</code> permite receber o resultado de uma Intent na Activity que disparou a Intent.
+    </p>
+    <table>
+        <thead>
+            <td><b>Parâmetro</b></td>
+            <td><b>Descrição</b></td>
+        </thead>
+        <tr>
+            <td><code>intent</code></td>
+            <td>Intent que representa a mensagem a ser enviada</td>
+        </tr>
+        <tr>
+            <td><code>codigo</code></td>
+            <td>Código numérico utilizado para identificar o retorno da chamada da Intent</td>
+        </tr>
+    </table>
+</section>
+<section>
+    <h2><code>startActivityForResult</code></h2>
+    <img src="img/07_intents/startActivityForResult.png" class="stretch" alt="" srcset="">
+</section>
+<section id="startActivityForResultExample">
+    <style>
+        #startActivityForResultExample .left {
+            float: left;
+            width: 70%
+        }
+
+        #startActivityForResultExample img {
+            position: fixed;
+            right: 0%;
+            top: 0%;
+        }
+    </style>
+    <div class="left">
+        <h2><code>startActivityForResult</code></h2>
+        <pre data-file="MainActivity.java"><code class="java" data-noescape data-trim style="max-height: 100%;">
+            public class MainActivity extends Activity {
+    
+                // código numérico que será utilizado no startActivityForResult
+                <mark>private static int FOTO_CODE = 1;</mark>
+            
+                protected void onCreate(Bundle savedInstanceState) {
+                    ...
+                    fotoBtn.setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View view) {
+                            Intent fotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                            <mark>startActivityForResult(fotoIntent, FOTO_CODE);</mark>
+                        }
+                    });
+                }
+                
+                @Override
+                protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+                    ImageView imageView = findViewById(R.id.img_foto);
+                    
+                    // verifica se retorno pertence a Intent chamada anterioremente,
+                    // e se ela foi executada corretamente 
+                    <mark>if (requestCode == FOTO_CODE && resultCode == Activity.RESULT_OK) {</mark>
+                    <mark>    Bitmap photo = (Bitmap) data.getExtras().get("data");</mark>
+                    <mark>    imageView.setImageBitmap(photo);</mark>
+                    <mark>}</mark>
+                }
+            }
+        </code></pre>
+        <img src="img/07_intents/intent_photo_result.png" alt="" srcset="">
+    </div>
+</section>
