@@ -330,3 +330,136 @@
         <img src="img/07_intents/intent_photo_result.png" alt="" srcset="">
     </div>
 </section>
+<section>
+    <h1>Intents Customizadas</h1>
+</section>
+<section>
+    <h2>Intents Customizadas</h2>
+    <p>
+        O Android permite que você crie mensagens que representam ações específicas, porém não suportadas pelo S.O. 
+    </p>
+    <p>Dessa forma, outros aplicativos poderiam se comunicar com o aplicativo desenvolvido por você!</p>
+</section>
+<section id="intentFilter">
+    <style>
+        #intentFilter .box {
+            position: fixed;
+            left: 35%;
+            top: 40%;
+            font-size: 3em;
+        }
+    </style>
+    <h2>O IntentFilter</h2>
+    <p>
+        Quando uma mensagem é disparada via Intent, o S.O. do Android lista quais aplicativos estão aptos a lidar com aquela ação.
+    </p>
+    <span class="fragment fade-in" data-fragment-index="1">
+        <div class="box red fragment fade-out" data-fragment-index="2">
+            COMO??
+        </div>
+    </span>
+    <ul class="fragment" data-fragment-index="2">
+        <li> 
+            O <code>IntentFilter</code> permite que você configure quais ações a sua aplicação estará apta a tratar.
+        </li>
+        <ul>
+            <li><em>OBS: Essas ações podem ser tanto <b>nativas</b> quanto <b>customizadas</b>!!</em></li>
+        </ul>
+        <li>
+            Deve ser declarado no <code>AndroidManifest.xml</code> pertencente ao aplicativo.
+        </li>
+    </ul>
+</section>
+<section>
+    <h2>O IntentFilter</h2>
+    <p>Aplicativo que irá se comunicar com o seu:</p>
+    <pre data-file="MainActivity.java"><code class="java" data-trim data-noescape>
+        // Se comunica com aplicativo que saiba tratar a ação 
+        // "edu.coltec.ufmg.example_intent.TESTE"
+        Uri uri = Uri.parse("minhauri://xxx/yyy/zzz");
+        Intent intent = new Intent("edu.coltec.ufmg.example_intent.TESTE");
+        startActivity(intent);
+    </code></pre>
+</section>
+<section>
+    <h2>O IntentFilter</h2>
+    <p>Seu Aplicativo:</p>
+    <pre data-file="AndroidManifest.xml"><code class="xml" data-trim data-noescape>
+        &lt;manifest ...&gt;
+            &lt;application ...&gt;
+                &lt;activity android:name=".MainActivity" ...&gt;
+                &lt;activity android:name=".TesteActivity"&gt;
+                    <mark>&lt;intent-filter&gt;</mark>
+                        <mark>&lt;action android:name="edu.coltec.ufmg.example_intent.TESTE" /&gt;</mark>
+                        <mark>&lt;category android:name="android.intent.category.DEFAULT" /&gt;</mark>
+                        <mark>&lt;android:scheme="minhauri" /&gt;</mark>
+                    <mark>&lt;/intent-filter&gt;</mark>
+                &lt;/activity&gt;
+            &lt;/application&gt;
+        &lt;/manifest&gt;
+    </code></pre>
+    <pre data-file="TesteActivity.java"><code class="java" data-trim data-noescape style="max-height: 25em;">
+            public class TesteActivity extends Activity {
+                ...
+                protected void onCreate(Bundle savedInstanceState) {
+                    super.onCreate(savedInstanceState);
+
+                    // recupera parâmetros da Intent
+                    Intent intent = getIntent();
+                    Uri uri = intent.getData();
+
+                    Log.d(TesteActivity.getName(), "Action: " + intent.getAction());
+                    Log.d(TesteActivity.getName(), "Scheme: " + uri.getScheme());
+                    Log.d(TesteActivity.getName(), "Host: " + uri.getHost());
+                    Log.d(TesteActivity.getName(), "Path: " + uri.getPath());
+                    Log.d(TesteActivity.getName(), "PathSegments: " + uri.getPathSegments());
+
+                    ...
+                }
+                ...
+            }
+    </code></pre>
+</section>
+<section>
+    <h2>SIDEBAR: Interceptando Aplicações Nativas</h2>
+    <p>
+        A arquitetura de mensagens do Android permite que sua aplicação intercepte ações nativas do Sistema.
+    </p>
+    <p>
+        Isso é possível porque <b>toda</b> ação é representada por uma <a href="https://developer.android.com/reference/android/content/Intent#constants">String</a> previamente definida, e portanto pode ser interceptada se declarada no <code>&lt;intent-filter&gt;</code>.
+    </p>
+</section>
+<section id="exampleNativeIntent1">
+    <style>
+        #exampleNativeIntent1 .left {
+            float: left;
+            width: 70%
+        }
+
+        #exampleNativeIntent1 img {
+            position: fixed;
+            right: 0%;
+            top: 0%;
+        }
+    </style>
+    <h2>SIDEBAR: Interceptando Aplicações Nativas</h2>
+    <div class="left">
+        <pre data-file="AndroidManifest.xml"><code class="xml" data-noescape data-trim>
+            &lt;activity android:name=".MainActivity"&gt;
+                &lt;intent-filter&gt;
+                    &lt;action android:name=<mark>"android.media.action.IMAGE_CAPTURE"</mark> /&gt;
+                    &lt;category android:name="android.intent.category.DEFAULT" /&gt;
+                &lt;/intent-filter&gt;
+            &lt;/activity&gt;
+        </code></pre>
+    </div>
+    <img src="img/07_intents/intercept_action_photo.png" alt="" srcset="">
+</section>
+<section class="reference">
+    <h2>Referência Complementar</h2>
+    <ul>
+        <li><a href="https://developer.android.com/guide/components/intents-common">Android Guide: Common Intents</a></li>
+        <li><a href="https://developer.android.com/reference/android/content/Intent">Android: Intents</a></li>
+        <li><a href="https://developer.android.com/reference/android/provider/MediaStore">Android: Media Store</a></li>
+    </ul>
+</section>
