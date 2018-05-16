@@ -392,7 +392,7 @@
                     <mark>&lt;intent-filter&gt;</mark>
                         <mark>&lt;action android:name="edu.coltec.ufmg.example_intent.TESTE" /&gt;</mark>
                         <mark>&lt;category android:name="android.intent.category.DEFAULT" /&gt;</mark>
-                        <mark>&lt;android:scheme="minhauri" /&gt;</mark>
+                        &lt;data android:scheme="minhauri" /&gt;
                     <mark>&lt;/intent-filter&gt;</mark>
                 &lt;/activity&gt;
             &lt;/application&gt;
@@ -442,8 +442,8 @@
             top: 0%;
         }
     </style>
-    <h2>SIDEBAR: Interceptando Aplicações Nativas</h2>
     <div class="left">
+        <h2>SIDEBAR: Interceptando Aplicações Nativas</h2>
         <pre data-file="AndroidManifest.xml"><code class="xml" data-noescape data-trim>
             &lt;activity android:name=".MainActivity"&gt;
                 &lt;intent-filter&gt;
