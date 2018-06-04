@@ -1,0 +1,78 @@
+<section class="title" data-background="img/coltec.png" data-state="blur">
+	<h3>COLTEC/UFMG</h3>
+	<h1>Persistência</h1>
+	<h3>João Eduardo Montandon</h3>
+</section>
+<section>
+    <h2>Introdução</h2>
+    <p>
+        Todo aplicativo precisa armazenar suas informações de forma permanente.
+    </p>
+    <p>
+        Isso permite que o usuário possa manter um fluxo contínuo de comunicação com aplicativo, mesmo que o aplicativo seja fechado.
+    </p>
+</section>
+<section>
+    <h2>Android &mdash; Persistência</h2>
+    <p>O Android possui três formas de realizar persistência das informações:</p>
+    <ol>
+        <li>Preferências (Shared Preferences)</li>
+        <li>Arquivos</li>
+        <li>Banco de dados</li>
+    </ol>
+</section>
+<section>
+    <h1>Shared Preferences</h1>
+</section>
+<section>
+    <h2>A Classe <code>SharedPreferences</code></h2>
+    <p>
+        Classe que permite o armazenamento de dados simples.
+    </p>
+    <p>
+        Os dados são armazenados por meio de tuplas chave-valor, similar a uma <code>HashTable</code>.
+    </p>
+    <p>
+        Permite manipular apenas dados primitivos (Strings, inteiros, etc.).
+    </p>
+    <p>
+        Disponível por meio da classe <code>android.content.SharedPreferences</code>.
+    </p>
+</section>
+<section>
+    <h2><code>SharedPreferences</code></h2>
+    <p>
+        Salvando dados no <code>SharedPreferences</code>
+    </p>
+    <pre><code class="java" data-noescape data-trim>
+        private static final String APP_PREF_ID = "MeuAppPrefID";
+        ...
+        // recupera o SharedPreferences do aplicativo
+        SharedPreferences pref = getContext().getSharedPreferences(APP_PREF_ID, 0);
+
+        // salva uma série de atributos no SharedPreferences
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putInt("chaveInt", 20);
+        editor.putBoolean("chaveBool", false);
+        editor.putString("chaveStr", "texto qualquer");
+
+        // garante a persistência das informações
+        editor.commit();
+        ...
+    </code></pre>
+</section>
+<section>
+    <h2><code>SharedPreferences</code></h2>
+    <p>
+        Lendo dados do <code>SharedPreferences</code>
+    </p>
+    <pre><code class="java" data-noescape data-trim>
+        // recupera o SharedPreferences do aplicativo
+        SharedPreferences pref = getContext().getSharedPreferences(APP_PREF_ID, 0);
+
+        // faz a leitura dos dados presentes no SharedPreferences
+        Integer valueInt = pref.getInt("chaveInt", 0);
+        Boolean valueBool = pref.getBoolean("chaveBool", true);
+        String valueStr = pref.getString("chaveStr", "");
+    </code></pre>
+</section>
