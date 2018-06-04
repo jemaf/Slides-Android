@@ -76,3 +76,148 @@
         String valueStr = pref.getString("chaveStr", "");
     </code></pre>
 </section>
+<section>
+    <h1>Arquivos</h1>
+</section>
+<section>
+    <h2>Arquivos</h2>
+    <p>
+        O Android utiliza a interface padrão do Java para leitura e escrita em arquivos:
+    </p>
+    <ul>
+        <li><b>java.io.InputStream</b> é responsável por fazer a leitura de dados.</li>
+        <li><b>java.io.OutputStream</b> é responsável por fazer a escrita de dados.</li>
+        <li><b>java.io.File</b> é responsável por recuperar os arquivos que serão lidos/escritos.</li>
+    </ul>
+    <p>
+        É permitido salvar os arquivos na memória interna e externa (SD card) do aparelho.
+    </p>
+</section>
+<section>
+    <h2>Arquivos na Memória Interna</h2>
+    <ul>
+        <li>
+            Os arquivos armazenados na memória interna são privados, de uso exclusivo do aplicativo (Sandboxing).
+        </li>
+        <li>
+            Os dados estão sempre disponíveis.
+        </li>
+        <li>
+            Os dados são automaticamente removidos quando o aplicativo é excluído pelo usuário
+        </li>
+    </ul>
+    <p>
+        <b>Armazenamento interno é melhor para situações quando segurança dos dados é um requisito importante!!</b>
+    </p>
+</section>
+<section>
+    <h2>Memória Interna &mdash; Escrita</h2>
+    <pre><code class="java" data-noescape data-trim style="max-height: 100%">
+        // obtém arquivo que será utilizado para escrita
+        File file = new File(getContext().getFilesDir(), "arquivo.txt");
+
+        // encapsula streaming em um writer para facilitar a escrita
+        FileOutputStream out = new FileOutputStream(file);
+        BufferedWriter writer = new BufferedWriter(out);
+
+        // realiza a escrita do dado
+        String conteudo = "Texto a ser gravado";
+        try {
+            writer.write(conteudo);
+        } catch(Exception e) {
+            Log.e("File", "Erro ao gravar arquivo:" + e.toString());
+        } finally {
+            writer.close();
+        }
+    </code></pre>
+</section>
+<section>
+    <h2>Memória Interna &mdash; Leitura</h2>
+    <pre><code class="java" data-noescape data-trim style="max-height: 100%">
+        // obtém arquivo que será utilizado para leitura
+        File file = new File(getContext().getFilesDir(), "arquivo.txt");
+
+        // encapsula streaming em um reader para facilitar a leitura
+        FileInputStream in = new FileInputStream(file);
+        BufferedReader reader = new BufferedReader(in);
+
+        // faz a leitura do dado
+        String conteudo = "";
+        try {
+            while((line = reader.readLine()) != null)
+                conteudo += line;
+        } catch(Exception e) {
+            log.e("File", "Erro ao fazer leitura do arquivo");
+        } finally {
+            reader.close();
+        }
+    </code></pre>
+</section>
+<section>
+    <h2>Arquivos na Memória Externa</h2>
+    <ul>
+        <li>Depende de <em>storage</em> externo para estar disponível.</li>
+        <li>Desenvolvedor pode escolher em que local gravar os dados.</li>
+        <li>Pode ser lido por outros aplicativos.</li>
+        <li>Não garante a remoção de todos os arquivos.</li>
+        <ul>
+            <li>Apenas os que estão dentro do diretório <code>getExternalFilesDir()</code>.</li>
+        </ul>
+    </ul>
+    <p>
+        <b>Armazenamento externo é aconselhável em situações onde o controle de acesso aos dados não é necessário.</b>
+    </p>
+</section>
+<section>
+    <h2>Arquivos na Memória Externa</h2>
+    <p>
+        É necessário declarar as permissões para leitura e escrita no dispositivo externo no <code>AndroidManifest.xml</code> do aplicativo:
+    </p>
+    <pre data-file="AndroidManifest.xml"><code class="xml" data-noescape data-trim>
+        &lt;uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/&gt;
+        &lt;uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/&gt;
+    </code></pre>
+</section>
+<section>
+    <h2>Memória Externa &mdash; Escrita</h2>
+    <pre><code class="java" data-noescape data-trim style="max-height: 100%">
+        // obtém arquivo que será utilizado para escrita externa
+        File file = new File(<mark>getContext().getExternalFilesDir()</mark>, "arquivo.txt");
+
+        // encapsula streaming em um writer para facilitar a escrita
+        FileOutputStream out = new FileOutputStream(file);
+        BufferedWriter writer = new BufferedWriter(out);
+
+        // realiza a escrita do dado
+        String conteudo = "Texto a ser gravado";
+        try {
+            writer.write(conteudo);
+        } catch(Exception e) {
+            Log.e("File", "Erro ao gravar arquivo:" + e.toString());
+        } finally {
+            writer.close();
+        }
+    </code></pre>
+</section>
+<section>
+    <h2>Memória Externa &mdash; Leitura</h2>
+    <pre><code class="java" data-noescape data-trim style="max-height: 100%">
+        // obtém arquivo que será utilizado para leitura externa
+        File file = new File(<mark>getContext().getExternalFilesDir()</mark>, "arquivo.txt");
+
+        // encapsula streaming em um reader para facilitar a leitura
+        FileInputStream in = new FileInputStream(file);
+        BufferedReader reader = new BufferedReader(in);
+
+        // faz a leitura do dado
+        String conteudo = "";
+        try {
+            while((line = reader.readLine()) != null)
+                conteudo += line;
+        } catch(Exception e) {
+            log.e("File", "Erro ao fazer leitura do arquivo");
+        } finally {
+            reader.close();
+        }
+    </code></pre>
+</section>
