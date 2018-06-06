@@ -9,7 +9,7 @@
         Todo aplicativo precisa armazenar suas informações de forma permanente.
     </p>
     <p>
-        Isso permite que o usuário possa manter um fluxo contínuo de comunicação com aplicativo, mesmo que o aplicativo seja fechado.
+        Isso permite que o usuário possa manter um fluxo contínuo de comunicação com aplicativgo, mesmo que ele seja fechado.
     </p>
 </section>
 <section>
@@ -103,7 +103,7 @@
             Os dados estão sempre disponíveis.
         </li>
         <li>
-            Os dados são automaticamente removidos quando o aplicativo é excluído pelo usuário
+            Os dados são automaticamente removidos quando o aplicativo é excluído pelo usuário.
         </li>
     </ul>
     <p>
@@ -116,13 +116,13 @@
         // obtém arquivo que será utilizado para escrita
         File file = new File(getContext().getFilesDir(), "arquivo.txt");
 
-        // encapsula streaming em um writer para facilitar a escrita
-        FileOutputStream out = new FileOutputStream(file);
-        BufferedWriter writer = new BufferedWriter(out);
-
-        // realiza a escrita do dado
-        String conteudo = "Texto a ser gravado";
         try {
+            // encapsula streaming em um writer para facilitar a escrita
+            FileOutputStream out = new FileOutputStream(file);
+            BufferedWriter writer = new BufferedWriter(out);
+    
+            // realiza a escrita do dado
+            String conteudo = "Texto a ser gravado";
             writer.write(conteudo);
         } catch(Exception e) {
             Log.e("File", "Erro ao gravar arquivo:" + e.toString());
@@ -137,13 +137,13 @@
         // obtém arquivo que será utilizado para leitura
         File file = new File(getContext().getFilesDir(), "arquivo.txt");
 
-        // encapsula streaming em um reader para facilitar a leitura
-        FileInputStream in = new FileInputStream(file);
-        BufferedReader reader = new BufferedReader(in);
-
-        // faz a leitura do dado
-        String conteudo = "";
         try {
+            // encapsula streaming em um reader para facilitar a leitura
+            FileInputStream in = new FileInputStream(file);
+            BufferedReader reader = new BufferedReader(in);
+    
+            // faz a leitura do dado
+            String conteudo = "";
             while((line = reader.readLine()) != null)
                 conteudo += line;
         } catch(Exception e) {
@@ -174,8 +174,12 @@
         É necessário declarar as permissões para leitura e escrita no dispositivo externo no <code>AndroidManifest.xml</code> do aplicativo:
     </p>
     <pre data-file="AndroidManifest.xml"><code class="xml" data-noescape data-trim>
-        &lt;uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/&gt;
-        &lt;uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/&gt;
+        &lt;manifest ... &gt;
+            &lt;uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/&gt;
+            &lt;uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/&gt;
+            
+            ...
+        &lt;/manifest&gt;
     </code></pre>
 </section>
 <section>
@@ -184,18 +188,21 @@
         // obtém arquivo que será utilizado para escrita externa
         File file = new File(<mark>getContext().getExternalFilesDir()</mark>, "arquivo.txt");
 
-        // encapsula streaming em um writer para facilitar a escrita
-        FileOutputStream out = new FileOutputStream(file);
-        BufferedWriter writer = new BufferedWriter(out);
-
         // realiza a escrita do dado
         String conteudo = "Texto a ser gravado";
         try {
-            writer.write(conteudo);
+            // verifica se SD Card está montado
+            <mark>if(Environment.getExternalStorageState(file).equals(Environment.MEDIA_MOUNTED)) {</mark>
+
+                // encapsula streaming em um writer para facilitar a escrita
+                FileOutputStream out = new FileOutputStream(file);
+                BufferedWriter writer = new BufferedWriter(out);
+
+                writer.write(conteudo);
+                writer.close();
+            <mark>}</mark>
         } catch(Exception e) {
             Log.e("File", "Erro ao gravar arquivo:" + e.toString());
-        } finally {
-            writer.close();
         }
     </code></pre>
 </section>
@@ -205,19 +212,22 @@
         // obtém arquivo que será utilizado para leitura externa
         File file = new File(<mark>getContext().getExternalFilesDir()</mark>, "arquivo.txt");
 
-        // encapsula streaming em um reader para facilitar a leitura
-        FileInputStream in = new FileInputStream(file);
-        BufferedReader reader = new BufferedReader(in);
-
         // faz a leitura do dado
         String conteudo = "";
         try {
-            while((line = reader.readLine()) != null)
-                conteudo += line;
+            <mark>if(Environment.getExternalStorageState(file).equals(Environment.MEDIA_MOUNTED)) {</mark>
+    
+                // encapsula streaming em um reader para facilitar a leitura
+                FileInputStream in = new FileInputStream(file);
+                BufferedReader reader = new BufferedReader(in);
+    
+                while((line = reader.readLine()) != null)
+                    conteudo += line;
+
+                reader.close();
+            <mark>}</mark>
         } catch(Exception e) {
             log.e("File", "Erro ao fazer leitura do arquivo");
-        } finally {
-            reader.close();
         }
     </code></pre>
 </section>
