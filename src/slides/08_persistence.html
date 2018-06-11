@@ -231,3 +231,242 @@
         }
     </code></pre>
 </section>
+<section>
+    <h1>Banco de Dados</h1>
+</section>
+<section>
+    <h2>SQLite</h2>
+    <p>
+        O Android possui suporte nativo ao SQLite.
+    </p>
+    <p>
+        <b>SQLite:</b> Banco de dados relacional leve que armazena seus dados em arquivo texto.
+    </p>
+    <p>
+        Cada aplicação possui seu próprio banco de dados, armazenados em: <code>/data/data/pacote.do.app/databases/</code>
+    </p>
+</section>
+<section>
+    <h2>Criando nosso Banco de Dados</h2>
+    <p>O Android permite que o banco de dados seja criado de duas formas:</p>
+    <ol>
+        <li>Através da API Android (<code>SQLiteOpenHelper</code>)</li>
+        <li>Manualmente (Importando Banco de Dados já pronto)</li>
+    </ol>
+    <div class="box" style="position: fixed; bottom: 10%; right: 0%; width: 450px;">
+        Nesta aula iremos aprender a criar o banco pela própria API!!
+    </div>
+</section>
+<section>
+    <h2><code>SQLiteOpenHelper</code></h2>
+    <p>
+        Classe abstrata responsável por gerenciar o Banco de Dados do aplicativo.
+    </p>
+    <p>
+        <b>Modo de uso:</b> O desenvolvedor irá herdar a classe <code>SQLiteOpenHelper</code>, e implementar as funções necessárias para comunicação com o banco de dados. O Android cuidará do restante.
+    </p>
+</section>
+<section>
+    <h2><code>SQLiteOpenHelper</code></h2>
+    <pre data-file="AppDB.java"><code class="java" style="max-height:100%" data-trim data-noescape>
+        public class AppDB extends SQLiteOpenHelper {
+
+            // nome do banco
+            private static String DB_NAME = "AppDB.sqlite";
+            
+            // versão do banco
+            private static final int DB_VERSION = 1;
+        
+            // script para criação do banco
+            private static final String SCRIPT_CREATE = "CREATE TABLE IF ...";
+
+            public AppDB(Context context) {
+                super(context, DB_NAME, null, DB_VERSION);
+            }
+        
+            @Override
+            public void onCreate(SQLiteDatabase db) {
+                // executado no momento em que o banco é criado pela primeira vez
+                db.execSQL(SCRIPT_CREATE);
+            }
+        
+            @Override
+            public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+                // executado no momento em que o banco é atualizado
+            }
+            ...
+        }
+    </code></pre>
+</section>
+<section>
+    <h2>Escrita dos dados</h2>
+    <p>A Escrita dos dados geralmente é composta por três passos:</p>
+    <ol>
+        <li>Obtenção do objeto <code>SQLiteDatabase</code></li>
+        <li>Execução da operação</li>
+        <li>Fechamento da conexão</li>
+    </ol>
+</section>
+<section>
+    <h2>Escrita dos Dados</h2>
+    <pre data-file="AppDB.java"><code class="java" style="max-height:100%" data-trim data-noescape>
+        public class AppDB extends SQLiteOpenHelper {
+           ...        
+            public void meuMetodo() {
+                // 1. Obtenção do SQLiteDatabase
+                SQLiteDatabase db = getWritableDatabase();
+        
+                try {
+                    // 2. Execução da ação
+                    db.insert(...);
+                    db.update(...);
+                    db.delete(...);
+                } catch(Exception e) {
+                    ...
+                } finally {
+                    // 3. Fechamento da conexão
+                    db.close();
+                }
+            }
+        }
+    </code></pre>
+    <p class="small">
+        <small>
+            Mais informações em <a href="https://developer.android.com/training/data-storage/sqlite">https://developer.android.com/training/data-storage/sqlite</a>
+        </small>
+    </p>
+</section>
+<section>
+    <h2>Exemplo &mdash; Insert</h2>
+    <pre data-file="AppDB.java"><code data-noescape data-trim class="java" style="max-height:100%">
+        public class AppDB extends SQLiteOpenHelper {
+            ...
+            public void insertUser(User u) {
+                // 1. Obtenção do SQLiteDatabase
+                SQLiteDatabase db = getWritableDatabase();
+        
+                try {
+                    // 2. Execução da ação
+                    ContentValues values = new ContentValues();
+                    values.put("nome", u.getName());
+                    values.put("email", u.getEmail());
+                    values.put("senha", u.getPassword());
+                    db.insert("users", null, values);
+                } catch(Exception e) {
+                    //trata exceção
+                } finally {
+                    // 3. Fechamento da conexão
+                    db.close();
+                }
+            }
+        }
+    </code></pre>
+</section>
+<section>
+    <h2>Exemplo &mdash; Update</h2>
+    <pre data-file="AppDB.java"><code data-noescape data-trim class="java" style="max-height:100%">
+        public class AppDB extends SQLiteOpenHelper {
+            ...
+            public void updateUser(User u) {
+                SQLiteDatabase db = getWritableDatabase();
+        
+                try {
+                    ContentValues values = new ContentValues();
+                    values.put("senha", u.getPassword());
+                    values.put("nome", u.getName());
+        
+                    String[] params = { u.getEmail() };
+                    db.update("users", values, "email=?", params);
+                } catch(Exception e) {
+                    // trata exceção
+                } finally {
+                    db.close();
+                }
+            }
+        }
+    </code></pre>
+</section>
+<section>
+    <h2>Exemplo &mdash; Delete</h2>
+    <pre data-file="AppDB.java"><code data-noescape data-trim class="java" style="max-height:100%">
+        public class AppDB extends SQLiteOpenHelper {
+            ...
+            public void deleteUser(User u) {
+                SQLiteDatabase db = getWritableDatabase();
+        
+                try {
+                    String[] params = { u.getName() };
+                    db.delete("users", "nome=?", params);
+                } catch(Exception e) {
+                    // trata execeção
+                } finally {
+                    db.close();
+                }
+            }
+        }
+    </code></pre>
+</section>
+<section>
+    <h2>Leitura dos Dados</h2>
+    <p>
+        A leitura de dados do banco necessita de dois adicionais:
+    </p>
+    <ol>
+        <li>Obtenção do objeto <code>SQLiteDatabase</code></li>
+        <li>Realização da leitura</li>
+        <ol>
+            <li>Obtenção dos dados através do método <code><a href="https://developer.android.com/reference/android/database/sqlite/SQLiteDatabase#query(boolean,%20java.lang.String,%20java.lang.String[],%20java.lang.String,%20java.lang.String[],%20java.lang.String,%20java.lang.String,%20java.lang.String,%20java.lang.String)">query(...)</a></code></li>
+            <li>Iteração sobre o resultado atraves do objeto <code><a href="https://developer.android.com/reference/android/database/Cursor">android.database.Cursor</a></code></li>
+        </ol>
+        <li>Fechamento da conexão</li>
+    </ol>
+</section>
+<section>
+    <!-- <h2>Leitura dos Dados &mdash; Exemplo</h2> -->
+    <pre data-file="AppDB.java"><code data-noescape data-trim class="java" style="max-height:100%">
+            public class AppDB extends SQLiteOpenHelper {
+                ...
+                public List&lt;User&gt; getAllUsers() {
+                    List&lt;User&gt; users = new ArrayList&lt;&gt;();   // lista que será retornada como resposta
+                    SQLiteDatabase db = getReadableDatabase();
+            
+                    try {
+                        // faz a leitura dos dados do banco
+                        Cursor c = db.query("users", null, null, null, null, null, null);
+            
+                        if(c.moveToFirst()) {
+                            do {
+                                // recupera os campos
+                                String name = c.getString(c.getColumnIndex("nome"));
+                                String email = c.getString(c.getColumnIndex("email"));
+                                String password = c.getString(c.getColumnIndex("senha"));
+            
+                                // cria objeto user a partir dos dados retornados do banco
+                                User u = new User();
+                                u.setName(name);
+                                u.setEmail(email);
+                                u.setPassword(password);
+            
+                                // adiciona user na lista que será retornada
+                                users.add(u);
+                            } while(c.moveToNext());
+                        }
+                    } catch (Exception e) {
+                        // trata exceção
+                    } finally {
+                        db.close();
+                    }
+            
+                    return users;
+                }
+            }
+        </code></pre>
+</section>
+<section class="reference">
+    <h2>Referência Complementar</h2>
+    <ul>
+        <li><a href="https://developer.android.com/training/data-storage/shared-preferences">Android Guide: Save key-value data</a></li>
+        <li><a href="https://developer.android.com/training/data-storage/files">Android Guide: Save files on device storage</a></li>
+        <li><a href="https://developer.android.com/training/data-storage/sqlite">Android Guide: Saving data using SQLite</a></li>
+    </ul>
+</section>
