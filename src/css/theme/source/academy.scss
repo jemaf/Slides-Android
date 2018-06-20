@@ -52,7 +52,7 @@ section.darkBackground {
  * background colors
  ***********************************************/
 
-code mark, .box {
+code mark, .box, .stamp {
     background-color: #fff2a8;
 
     &.blue {
@@ -271,4 +271,39 @@ section.reference {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
     padding: 0.5em !important;
     display: inline;
+}
+
+p.stamp {
+    color: #a6001a;
+    background-color: white;
+    background-size: 2px 4px, 4px 2px;
+    margin:0 1em 1em;
+    font-size: 2em;
+    transform: rotate(-5deg);
+    font-family: $headingFont;
+    width: 7.3em;
+    letter-spacing: 5px;
+    display: inline-block;
+    padding: 0.5em;
+    border-radius: 15px;
+    box-shadow: 0 0 0 5px, inset 0 0 0 5px white, inset 0 0 0 8px, inset 0 0 0 400px white;
+    outline-offset: -1px;
+    outline: solid 8px;
+}
+
+ul.check {
+    list-style: none !important;
+    padding: 0;
+    li {
+        padding-left: 1.3em;
+        
+        &:before {
+            @include fa-icon;
+            @extend .fas;
+            content: fa-content($fa-var-check); /* FontAwesome Unicode */
+            display: inline-block;
+            margin-left: -1.3em; /* same as padding-left set on li */
+            width: 1.3em; /* same as padding-left set on li */
+        }
+    }
 }
