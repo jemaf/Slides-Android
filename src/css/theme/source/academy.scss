@@ -54,6 +54,7 @@ section.darkBackground {
 
 code mark, .box, .stamp {
     background-color: #fff2a8;
+    border-radius: 10px;
 
     &.blue {
         background-color: #a8d1ff;
@@ -65,6 +66,10 @@ code mark, .box, .stamp {
 
     &.red {
         background-color: #ffb7b7;
+    }
+
+    &.lightgrey {
+        background-color: rgba(211, 211, 211, 0.157);
     }
 }
 

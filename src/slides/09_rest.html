@@ -220,9 +220,224 @@
     </ol>
     <p>Portanto, a comunicação via REST é predominante quando se trata do mundo mobile!!</p>
 </section>
+<section>
+    <h1>REST &amp; Android</h1>
+</section>
+<section>
+    <h2>REST &amp; Android</h2>
+    <p>A comunicação REST no Android pode ser feita nativamente.</p>
+    <p>Para isso, o desenvolvedor deverá implementar, <b>manualmente</b>:</p>
+    <ol>
+        <li>Estabelecer conexão com serviço.</li>
+        <li>Requisitar os dados necessários.</li>
+        <li>Fazer a conversão do dado recebido para um respectivo objeto</li>
+    </ol>
+    <p><b>Alternativa: Utilizar uma biblioteca de consumo de Serviços REST.</b></p>
+</section>
+<section>
+    <h2>Retrofit</h2>
+    <p><b><a href="http://square.github.io/retrofit/">Retrofit</a></b> é uma biblioteca cujo propósito é facilitar a comunicação com Serviços REST.</p>
+    <p>É uma das bibliotecas REST Client mais utilizadas no universo Android.</p>
+    <ul class="check">
+        <li>Mapeamento de JSON para objetos</li>
+        <li>Definição de requisições por meio de interfaces</li>
+    </ul>
+</section>
+<section>
+    <h2>Retrofit &mdash; Instalação</h2>
+    <p>A instalação pode ser feita por meio do gradle presente no módulo <code>app</code>:</p>
+    <pre data-file="build.gradle"><code data-trim data-noescape>
+        ...
+        dependencies {
+            ...
+            api 'com.squareup.retrofit2:retrofit:2.4.0'
+            api 'com.squareup.retrofit2:converter-gson:2.4.0'
+        }
+    </code></pre>
+    Além disso, é necessário adicionar a permissão de acesso a internet:
+    <pre data-file="AndroidManifest.xml"><code class="xml" data-trim data-noescape>
+        &lt;manifest ...&gt;
+            &lt;uses-permission android:name="android.permission.INTERNET" /&gt;
+            ...
+        &lt;/manifest&gt;
+    </code></pre>
+</section>
+<section>
+    <h2>Retrofit &mdash; Configuração</h2>
+    <p>Para se trabalhar com o Retrofit é necessário:</p>
+    <ol>
+        <li>Configurar o Serviço</li>
+        <li>Configurar Interface</li>
+        <li>Fazer chamada do Serviço</li>
+    </ol>
+</section>
+<section>
+    <h2>Configurando o Serviço</h2>
+    <p>A configuração do serviço define parâmetros gerais de seu funcionamento:</p>
+    <ul>
+        <li>Qual o endereço do serviço?</li>
+        <li>Como o dado retornado será desempacotado?</li>
+    </ul>
+    <p>Essa configuração é feita através da função <code>Retrofit.Builder()</code>.</p>
+</section>
+<section>
+    <h2>Configurando o Serviço</h2>
+    <pre data-file="RetrofitConfig.java"><code class="java" data-trim data-noescape style="max-height:100%;">
+        import retrofit2.Retrofit;
+        import retrofit2.converter.gson.GsonConverterFactory;
+
+        public class RetrofitConfig {
+
+            // Objeto que fará o acesso a API do serviço
+            private final Retrofit retrofit;
+
+            public RetrofitConfig() {
+                
+                // configura o retrofit para um determinado serviço
+                <mark>this.retrofit = new Retrofit.Builder()</mark>
+                                    <mark>.baseUrl("https://viacep.com.br/")</mark>
+                                    <mark>.addConverterFactory(GsonConverterFactory.create())</mark>
+                                    <mark>.build();</mark>
+            }
+        }           
+    </code></pre>
+</section>
+<section>
+    <h2>Configurando a Interface</h2>
+    <p>No Retrofit, o acesso aos dados do serviço são feitos através de <code>services</code>.</p>
+    <p>Os <code>services</code> são interfaces que possuem anotações indicando como a requisição deve ser feita no serviço.</p>
+</section>
+<section id="restInterface">
+    <style>
+        #restInterface div.box {
+            position: fixed;
+            width: 10em;
+            top: 40%;
+            right: 10%;
+        }
+    </style>
+    <h2>Configurando a Interface</h2>
+    <pre data-file="EnderecoService.java"><code data-trim data-noescape class="java" style="max-height: 100%">
+        import retrofit2.Call;
+        import retrofit2.http.GET;
+        import retrofit2.http.Path;
+        
+        public interface EnderecoService {
+
+            <mark class="lightgrey"><span class="fragment" data-fragment-index="1">@GET("ws/{cep}/json")</span></mark>
+            public <mark class="lightgrey"><span class="fragment" data-fragment-index="3">Call&lt;Endereco&gt;</span></mark> getEndereco(<mark class="lightgrey"><span class="fragment" data-fragment-index="2">@Path("cep")</span></mark> String cep);
+        
+            <mark class="lightgrey"><span class="fragment" data-fragment-index="1">@GET("ws/{estado}/{cidade}/{rua}/json")</span></mark>
+            public <mark class="lightgrey"><span class="fragment" data-fragment-index="3">Call&lt;List&lt;Endereco&gt;&gt;</span></mark> getCEP(<mark class="lightgrey"><span class="fragment" data-fragment-index="2">@Path("estado")</span></mark> String estado,
+                                                <mark class="lightgrey"><span class="fragment" data-fragment-index="2">@Path("cidade")</span></mark> String cidade,
+                                                <mark class="lightgrey"><span class="fragment" data-fragment-index="2">@Path("rua")</span></mark> String rua);
+        }
+    </code></pre>
+    <span class="fragment" data-fragment-index="1">
+        <span class="fragment fade-out" data-fragment-index="2">
+            <div class="box" >
+                As declarações das funções são anotadas referente a qual rota ela irá invocar
+            </div>
+        </span>
+    </span>
+    <span class="fragment" data-fragment-index="2">
+        <span class="fragment fade-out" data-fragment-index="3">
+            <div class="box">
+                Os parâmetros são anotados para indicar onde eles vão se encaixar na rota
+            </div>
+        </span>
+    </span>
+    <span class="fragment" data-fragment-index="3">
+        <span class="fragment fade-out" data-fragment-index="4">
+            <div class="box">
+                As funções devem retornar objetos do tipo <code>Call&lt;Tipo&gt;</code>
+            </div>
+        </span>
+    </span>
+</section>
+<section>
+    <h2>Chamando o Serviço</h2>
+    <p>Para fazer chamada ao retrofit, é necessário:</p>
+    <ol>
+        <li>Criar uma nova instância do serviço a ser chamada</li>
+        <li>Fazer requisição ao serviço</li>
+    </ol>
+</section>
+<section>
+    <h2>Chamando o Serviço &mdash; pt. 1</h2>
+    <p>Para criar uma nova instância nós utilizamos a função <code>create()</code>:</p>
+    <pre><code class="java" data-trim data-noescape>
+        Retrofit retrofit = new Retrofit.Builder()
+                            .baseUrl("https://webservice.url/")
+                            .build();
+        ...
+        ServiceInterface service = retrofit.create(ServiceInterface.class);
+    </code></pre>
+</section>
+<section>
+    <h2>Chamando o Serviço &mdash; pt. 1</h2>
+    <pre data-file="RetrofitConfig.java"><code class="java" data-trim data-noescape>
+        public class RetrofitConfig {
+            private final Retrofit retrofit;
+        
+            public RetrofitConfig() {
+                ...
+            }
+        
+            public EnderecoService getEnderecoService() {
+                return this.retrofit.create(EnderecoService.class);
+            }
+        }
+    </code></pre>
+</section>
+<section>
+    <h2>Chamando o Serviço  &mdash; pt. 2</h2>
+    <table>
+        <thead>
+            <td><b>Função</b></td>
+            <td><b>Descrição</b></td>
+        </thead>
+        <tr>
+            <td><code>Response&lt;T&gt; execute()</code></td>
+            <td>Faz a resquisição de forma <b>síncrona</b>, retornando o dado empacotado dentro do objeto Response.</td>
+        </tr>
+        <tr>
+            <td style="width: 48%;"><code>void enqueue(Callback&lt;T&gt; callback)</code></td>
+            <td>Faz a requisição de forma <b>assíncrona</b>. O <code>callback</code> enviado como parâmetro implementa métodos que serão executados ao receber o dado, ou no caso de uma falha da requisição.</td>
+        </tr>
+    </table>
+    <div class="box red fragment" style="position: fixed; bottom: 20%; left: 0%; width: 20em">Deve-se sempre priorizar as chamadas assíncronas para evitar travamento do aplicativo durante execução da requisição.</div>
+</section>
+<section>
+    <h2>Chamando o Serviço &mdash; pt. 2</h2>
+    <pre><code class="java" style="max-height: 100%" data-trim data-noescape>
+        ...
+        EnderecoService service = new RetrofitConfig().getEnderecoService();
+        Call&lt;Endereco&gt; enderecoCall = service.getEndereco(cep);
+
+        // fazendo a requisição de forma assíncrona
+        enderecoCall.enqueue(new Callback&lt;Endereco&gt;() {
+            @Override
+            public void onResponse(Call&lt;Endereco&gt; call, Response&lt;Endereco&gt; response) {
+                Endereco endereco = response.body();
+                
+                // Manipulação do endereço recebido
+            }
+
+            @Override
+            public void onFailure(Call&lt;Endereco&gt; call, Throwable t) {
+                // Tratamento de eventual erro de requisição
+            }
+        });
+    </code></pre>
+</section>
 <section class="reference">
     <h2>Referência Complementar</h2>
     <ul>
         <li><a href="https://www.oreilly.com/library/view/restful-java-with/9780596809300/ch01s02.html">RESTFul Archutectural Principles</a></li>
+        <li><a href="http://square.github.io/retrofit/">Retrofit</a></li>
+        <li><a href="https://code.tutsplus.com/pt/tutorials/android-from-scratch-using-rest-apis--cms-27117">Blog: Android a Partir do Zero: Fazendo uso de APIs REST</a></li>
+        <li><a href="http://blog.matheuscastiglioni.com.br/consumindo-web-service-no-android-com-retrofit">Blog: Consumindo Web Service no Android com Retrofit</a></li>
+        <li><a href="http://www.vogella.com/tutorials/Retrofit/article.html">Blog: Using Retrofit 2.x as REST Client</a></li>
     </ul>
 </section>
