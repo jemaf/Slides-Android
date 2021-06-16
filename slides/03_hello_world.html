@@ -1,0 +1,498 @@
+<section class="title" data-background="img/coltec.png" data-state="blur">
+	<h3>COLTEC/UFMG</h3>
+	<h1>Hello, Droid!</h1>
+	<h3>João Eduardo Montandon</h3>
+</section>
+
+<section>
+    <h2>Objetivos</h2>
+    <p>Introduzir ao ambiente de desenvolvimento do Android</p>
+    <p>Compreender os conceitos elementares de um projeto mobile</p>
+</section>
+
+<section>
+    <h1>Criando um Novo Projeto</h1>
+</section>
+
+<section id="newProject">
+    <style>
+        #newProject div.left {
+            padding-left: 10%;
+            text-align: left;
+            float: left;
+            width: 40%;
+        }
+
+        #newProject img {
+            position: fixed;
+            right: 0px;
+            top: 15%;
+            max-width: 40%;
+            border: none;
+            box-shadow: none;
+        }
+    </style>
+    <div class="left">
+        <h2>Novo Projeto</h2>
+        <ol>
+            <li><code>File > New > Project</code></li>
+            <li>Minimum SDK: API 22</li>
+            <li>Template: Empty Activity</li>
+            <li>Activity: <code>HelloActivity</code></li>
+        </ol>
+    </div>
+    <img data-src="img/03_hello_world/new_project.png" alt="">
+</section>
+
+<section id="ideGeneralView">
+    <style>
+        #ideGeneralView .leftPanel {
+            background-color: rgba(196, 0, 0, 0.15);
+            position: fixed;
+            width: 408px;
+            height: 884px;
+            top: 95px;
+            left: 170px;
+        }
+
+        #ideGeneralView .codePanel {
+            background-color: rgba(0, 196, 0, 0.15);
+            position: fixed;
+            width: 1168px;
+            height: 884px;
+            top: 95px;
+            left: 578px;
+        }
+
+        #ideGeneralView .consolePanel {
+            background-color: rgba(0, 0, 196, 0.15);
+            position: fixed;
+            width: 1576px;
+            height: 45px;
+            top: 980px;
+            left: 170px;
+        }
+
+        #ideGeneralView .runPanel {
+            background-color: rgba(0, 0, 196, 0.15);
+            position: fixed;
+            width: 1578px;
+            height: 57px;
+            top: 38px;
+            left: 170px;
+        }
+
+        #ideGeneralView div {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+    <img class="stretch" data-src="img/03_hello_world/android-studio.png" alt="">
+    <div class="runPanel">
+        <h6>Barra de Execução</h6>
+    </div>
+    <div class="leftPanel">
+        <h4>Painel de Configurações</h4>
+    </div>
+    <div class="codePanel">
+        <h3>Editor</h3>
+    </div>
+    <div class="consolePanel">
+        <h6>Console</h6>
+    </div>
+</section>
+
+<section>
+    <h2>Arquivo <code>HelloActivity.java</code></h2>
+    <pre><code data-trim data-noescape>
+        package br.ufmg.coltec.hellodroid;
+
+        import android.app.Activity;
+        import android.os.Bundle;
+        
+        public class HelloActivity extends <mark>Activity</mark> {
+        
+            @Override
+            protected void onCreate(Bundle savedInstanceState) {
+                super.onCreate(savedInstanceState);
+                setContentView(R.layout.activity_hello);
+            }
+        }                
+    </code></pre>
+</section>
+
+<section id="helloDroidXML">
+    <style>
+        #helloDroidXML code {
+            max-height: none;
+        }
+    </style>
+    <h2>Arquivo <code>activity_hello.xml</code></h2>
+    <pre><code data-trim data-noescape class="xml">
+    &lt;?xml version="1.0" encoding="utf-8"?&gt;
+    &lt;<mark>android.support.constraint.ConstraintLayout</mark> xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="br.ufmg.coltec.hellodroid.HelloActivity"&gt;
+    
+        &lt;TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            <mark>android:text="Hello World!"</mark>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" /&gt;
+    
+    &lt;/android.support.constraint.ConstraintLayout&gt;            
+    </code></pre>
+</section>
+
+<section id="helloDroidRun">
+    <style>
+        #helloDroidRun div.left {
+            padding-left: 10%;
+            text-align: left;
+            float: left;
+            width: 60%;
+        }
+
+        #helloDroidRun img {
+            position: fixed;
+            right: 0px;
+            top: 5%;
+            max-width: 30%;
+            border: none;
+            box-shadow: none;
+        }
+    </style>
+    <div class="left">
+        <h2>Executando a Aplicação</h2>
+        <ol>
+            <li><code>Run > Run App</code></li>
+            <li>Selecionar Emulador</li>
+            <ul><li>Criar um se não existir</li></ul>
+            <li>Executar!!</li>
+        </ol>
+    </div>
+    <img data-src="img/03_hello_world/hello_world_01.png" alt="">
+</section>
+
+<section id="helloDroidManifest">
+    <style>
+        #helloDroidManifest code {
+            max-height: none;
+        }
+    </style>
+    <h2>O Arquivo <code>AndroidManifest.xml</code></h2>
+    <pre><code data-trim data-noescape class="xml">
+    &lt;?xml version="1.0" encoding="utf-8"?&gt;
+    &lt;manifest xmlns:android="http://schemas.android.com/apk/res/android"
+        package="br.ufmg.coltec.hellodroid"&gt;
+    
+        &lt;application
+            android:allowBackup="true"
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/app_name"
+            android:roundIcon="@mipmap/ic_launcher_round"
+            android:supportsRtl="true"
+            android:theme="@style/AppTheme"&gt;
+            <mark>&lt;activity android:name=".HelloActivity"&gt;</mark>
+                &lt;intent-filter&gt;
+                    <mark>&lt;action android:name="android.intent.action.MAIN" /&gt;</mark>
+    
+                    <mark>&lt;category android:name="android.intent.category.LAUNCHER" /&gt;</mark>
+                &lt;/intent-filter&gt;
+            &lt;/activity&gt;
+        &lt;/application&gt;
+    
+    &lt;/manifest&gt;
+    </code></pre>
+</section>
+
+<section id="helloDroidChanges">
+    <style>
+        #helloDroidChanges .box {
+            position: fixed;
+            left: 5%;
+            bottom: 3%;
+            background-color: firebrick;
+            color: white;
+            max-width: 300px;
+            padding: 1.5%;
+
+            text-align: center;
+            font-weight: 400;
+
+            box-shadow: 0px 0px 6px rgba(0,0,0,0.3);
+        }
+
+        #helloDroidChanges div.left {
+            padding-left: 5%;
+            text-align: left;
+            float: left;
+            width: 70%;
+        }
+
+        #helloDroidChanges div.left pre {
+            margin-left: 0px;
+        }
+
+        #helloDroidChanges img {
+            position: fixed;
+            right: 0px;
+            top: 5%;
+            max-width: 30%;
+            border: none;
+            box-shadow: none;
+        }
+    </style>
+    <div class="left">
+        <h2>Fazendo Algumas Alterações</h2>
+        <pre data-file="strings.xml"><code data-trim data-noescape class="xml">
+            &lt;resources&gt;
+                &lt;string name="app_name"&gt;Hello, Droid!!&lt;/string&gt;
+                <mark>&lt;string name="main_description"&gt;Hello Droid&lt;/string&gt;</mark>
+            &lt;/resources&gt;
+        </code></pre>
+        <pre data-file="activity_hello.xml"><code data-trim data-noescape class="xml">
+            ...
+            &lt;TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                <mark>android:text="@string/main_description"</mark>
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" /&gt;
+            ...
+        </code></pre>
+    </div>
+    <img data-src="img/03_hello_world/hello_world_02.png" alt="">
+    <div class="box fragment">
+        Por quê dessa vez ele executou mais rápido?
+    </div>
+</section>
+
+<section id="helloDroidFinalChanges">
+    <style>
+        #helloDroidFinalChanges img {
+            border: none;
+            box-shadow: none;
+        }
+    </style>
+    <h2>Hello, <code>Cara</code>!</h2>
+    <img data-src="img/03_hello_world/hello_world_03.png" alt="">
+</section>
+
+<section>
+    <h2>Hello, <code>Cara</code>!</h2>
+    <pre data-file="activity_hello.xml"><code data-trim data-noescape class="xml" style="max-height: 100%;">
+        &lt;?xml version="1.0" encoding="utf-8"?&gt;
+        &lt;<mark >RelativeLayout</mark> ...&gt;
+            &lt;TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/main_description"
+                <mark >android:layout_centerInParent="true"</mark> /&gt;
+        
+            &lt;EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                <mark >android:layout_toLeftOf="@+id/btn_update"</mark>/&gt;
+        
+            &lt;Button
+            <mark >android:id="@+id/btn_update"</mark>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_update"
+                <mark >android:layout_alignParentRight="true"</mark>/&gt;
+        
+        <mark>&lt;/RelativeLayout&gt;</mark>
+    </code></pre>
+</section>
+
+<section>
+    <h2>Hello, <code>Cara</code>!</h2>
+    <pre data-file="HelloActivity.java"><code data-trim class="java" data-noescape style="max-height: 100%;">
+        public class HelloActivity extends Activity {
+
+            @Override
+            protected void onCreate(Bundle savedInstanceState) {
+                super.onCreate(savedInstanceState);
+                setContentView(R.layout.activity_hello);
+        
+                <mark>final TextView lblHello = findViewById(R.id.lbl_hello);</mark>
+                <mark>final EditText txtName = findViewById(R.id.txt_name);</mark>
+                <mark>Button btnUpdate = findViewById(R.id.btn_update);</mark>
+        
+                <mark>btnUpdate.setOnClickListener(new View.OnClickListener() {</mark>
+                <mark>    @Override</mark>
+                <mark>    public void onClick(View view) {</mark>
+                <mark>        lblHello.setText("Hello, " + txtName.getText());</mark>
+                <mark>    }</mark>
+                <mark>});</mark>
+            }
+        }            
+    </code></pre>
+</section>
+
+<section>
+    <h2>A Classe <code>R.java</code></h2>
+    <pre><code data-trim data-noescape class="java">
+        ...
+        final TextView lblHello = findViewById(<mark>R.id.lbl_hello</mark>);
+        final EditText txtName = findViewById(<mark>R.id.txt_name</mark>);
+        Button btnUpdate = findViewById(<mark>R.id.btn_update</mark>);
+        ...
+    </code></pre>
+    <p>Possui mapeamento em código para todos os componentes</p>
+    <p>Podem ser recuperados dinamicamente dentro do código</p>
+    <p>É gerado automaticamente pelo Android SDK (<b>Não alterar diretamente!!)</b></p>
+</section>
+
+<section data-background="https://media.giphy.com/media/XJzlSfuuX1qI8/giphy.gif" class="darkBackground" data-state="dark">
+    <blockquote style="border-left: 25px solid rgba(255, 255, 255, 0.6);">
+        Não ligue para a gente, nós ligaremos para você.
+        <footer style="color: white;">O Princípio de Hollywood</footer>
+    </blockquote>
+</section>
+
+<section>
+    <h2>O Princípio de Hollywood</h2>
+    <pre><code data-trim class="java">
+        ...
+        btnUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                lblHello.setText("Hello, " + txtName.getText());
+            }
+        });
+        ...
+    </code></pre>
+    <p>Muito utilizado no universo Android</p>
+    <p>Você desenvolve, mas o Android decide quando ele será executado</p>
+</section>
+
+<section id="logCat">
+    <style>
+        #logCat .box {
+            background-color: #fff2a8;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+            padding: 1em;
+            text-align: left;
+
+            position: fixed;
+            right: 3%;
+            top: 75%;
+            width: 25%;
+        }
+    </style>
+    <h2>O LOGCat</h2>
+    <p>Utilizado para registrar o log das ações do aplicativo</p>
+    <table>
+        <tr>
+            <td><code>Log.wtf</code></td>
+            <td>Deve ser utilizado quando há uma falha grave, que impede a execução do aplicativo (crash).</td>
+        </tr>
+        <tr>
+            <td><code>Log.e</code></td>
+            <td>Utilizado quando há um erro sério, mas que não impede execução do aplicativo.</td>
+        </tr>
+        <tr>
+            <td><code>Log.w</code></td>
+            <td>Informar avisos e comportamentos anormais na execução do aplicativo</td>
+        </tr>
+        <tr>
+            <td><code>Log.d</code></td>
+            <td>Utilizar para fins de debug</td>
+        </tr>
+        <tr>
+            <td><code>Log.i</code></td>
+            <td>Utilizar para fins de informação/checkpoints de execução</td>
+        </tr>
+        <tr>
+            <td><code>Log.v</code></td>
+            <td>Verbose, prioridade mais baixa de impressão.</td>
+        </tr>
+    </table>
+
+    <div class="box">Evite utilizar o <code>System.out.println</code> para logging!!</div>
+</section>
+
+<section id="logCatExample">
+    <style>
+        #logCatExample code{
+            max-height: 100%;
+        }
+
+        #logCatExample img {
+            position: fixed;
+            right: 0;
+            top: 60%;
+
+            border: none;
+            box-shadow: none;
+        }
+    </style>
+    <h2>O LOGCat</h2>
+    <pre><code data-trim data-noescape>
+        import android.app.Activity;
+        import android.os.Bundle;
+        <mark>import android.util.Log;</mark>
+        
+        public class MainActivity extends Activity {
+        
+            <mark>private static final String TAG = MainActivity.class.getName();</mark>
+        
+            @Override
+            protected void onCreate(Bundle savedInstanceState) {
+                super.onCreate(savedInstanceState);
+                setContentView(R.layout.activity_main);
+        
+                <mark>Log.i(TAG, "App inicializado!!");</mark>
+            }
+        }            
+    </code></pre>
+    <img src="img/03_hello_world/logCat.png" alt="">
+</section>
+
+<section id="howToRun">
+    <style>
+        #howToRun div.left {
+            padding-left: 10%;
+            text-align: left;
+            float: left;
+            width: 40%;
+        }
+
+        #howToRun img {
+            position: fixed;
+            right: 5%;
+            top: 5%;
+            max-width: 27%;
+            border: none;
+            box-shadow: none;
+        }
+    </style>
+    <div class="left">
+        <h2>Executando no Aparelho</h2>
+        <ol>
+            <li>Ir em <code>Configurações</code></li>
+            <li>Tocar 7 vezes em <code>Número de Versão</code></li>
+            <li>Ir em <code>Programador</code> e ativá-lo</li>
+        </ol>
+    </div>
+    <img data-src="img/03_hello_world/developer_mode.png" alt="">
+</section>
+
+<section class="reference">
+    <h2>Referência Complementar</h2>
+    <ul>
+        <li><a href="https://developer.android.com/training/basics/firstapp/creating-project.html?hl=pt-br">Android Guide: Crie um Projeto Android</a></li>
+        <li><a href="https://developer.android.com/studio/projects/index.html?hl=pt-br">Android Guide: Visão Geral do Projeto</a></li>
+    </ul>
+</section>

@@ -1,0 +1,443 @@
+<section class="title" data-background="img/coltec.png" data-state="blur">
+	<h3>COLTEC/UFMG</h3>
+	<h1>Serviços REST</h1>
+	<h3>João Eduardo Montandon</h3>
+</section>
+<section data-background="img/09_rest/mobile_phone.jpg" data-state="dark">
+    <blockquote style="border-left: 25px solid rgba(255, 255, 255, 0.6); color: white;">
+        In today’s modern world, people are either asleep or connected.
+        <footer style="color: white;">Janice H. Reinold, Rosetta Marketing</footer>
+    </blockquote>
+</section>
+<section>
+    <h2>O Mundo Conectado</h2>
+    <p>
+        Cada vez mais pessoas trafegam mais dados pela rede através dos smartphones:
+    </p>
+    <ul>
+        <li>95% dos usuários do <b>Facebook</b> acessam a plataforma por smartphones<small><a href="https://www.statista.com/statistics/377808/distribution-of-facebook-users-by-device/">(link)</a></small></li>
+        <li>Em 2017, os smartphones foram responsáveis por 50,3% do tráfico web<small><a href="https://www.statista.com/statistics/241462/global-mobile-phone-website-traffic-share/">(link)</a></small> </li>
+        <li>em 2016, 1,7 GB de dados foram utilizados por mês, por usuário. <br/>
+        Esse número deverá crescer mais de 5x até 2021<small><a href="https://www.statista.com/statistics/752731/worldwide-average-monthly-smartphone-cellular-data-usage/">(link)</a></small></li>
+        <li>1,1 trilhões de fotos foram tiradas por smartphones em 2016<small><a href="http://www.businessinsider.com/12-trillion-photos-to-be-taken-in-2017-thanks-to-smartphones-chart-2017-8">(link)</a></small></li>
+    </ul>
+    <p class="stamp fragment" style="position:fixed; left: 30%; top: 35%;">
+        Para onde vão esses dados?
+    </p>
+</section>
+<section>
+    <h2>Arquitetura de Serviços</h2>
+    <img src="img/09_rest/rest.png">
+</section>
+<section>
+    <h2>Arquitetura de Serviços</h2>
+    <p>
+        A Arquitetura de Serviços apresenta várias vantagens:
+    </p>
+    <ul class="check">
+        <li>Interoperabilidade</li>
+        <li>Centralização dos dados</li>
+        <li>Baixo custo</li>
+        <li>Escalável</li>
+        <li>Alta disponibilidade</li>
+    </ul>
+</section>
+<section>
+    <h2>Arquitetura de Serviços</h2>
+    <table>
+        <thead>
+            <tr>
+                <td><b>Protocolo</b></td>
+                <td><b>Descrição</b></td>
+            </tr>
+        </thead>
+        <tr>
+            <td><b>SOAP</b></td>
+            <td><b>S</b>imple <b>O</b>bject <b>A</b>ccess <b>P</b>rotocol é um protocolo que define a comunicação via web services por meio de especificações XML. Sua estrutura permite flexibilizar o meio de comunicação com o web service, porém requer maior trabalho para configuração.</td>
+        </tr>
+        <tr>
+            <td><b>REST</b></td>
+            <td><b>RE</b>presentational <b>S</b>tate <b>T</b>ransfer é um padrão arquitetural de provimento de serviços que se utiliza das funções existentes no protocolo HTTP para disponibilizar seus dados. Por derivar do HTTP, o padrão é extremamente simples de ser aplicado.</td>
+        </tr>
+    </table>
+</section>
+<section>
+    <h2>REST VS SOAP</h2>
+    <p>Mensagem em SOAP</p>
+    <pre><code class="xml" data-noescape data-trim style="padding: 1%">
+        &lt;?xml version="1.0"?&gt;
+        &lt;soap:Envelope xmlns:soap="http://www.w3.org/2001/12/soap-envelope"
+            soap:encodingStyle="http://www.w3.org/2001/12/soap-encoding"&gt; 
+            &lt;soap:body pb="http://www.coltec.ufmg.br/notas"&gt;
+                &lt;pb:GetNotasAluno&gt; 
+                    &lt;pb:idAluno&gt;12345&lt;/pb:idAluno&gt;
+                &lt;/pb:GetNotasAluno&gt; 
+            &lt;/soap:Body&gt;
+        &lt;/soap:Envelope&gt;
+    </code></pre>
+
+    <p>Mensagem em REST</p>
+    <pre><code data-noescape data-trim style="padding: 1%">
+        http://www.coltec.ufmg.br/notas/NotasAluno/12345
+    </code></pre>
+</section>
+<section>
+    <h1>RESTFul Web Services</h1>
+</section>
+<section>
+    <h2>Introdução</h2>
+    <p>Um serviço web é considerado <b>RESTFul</b> quando segue o padrão REST em sua implementação.</p>
+    <p>Resultado de uma <a href="https://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm">tese de doutorado</a>, escrita por Roy Fielding.</p>
+</section>
+<section>
+    <h2>REST &mdash; Princípios</h2>
+    <ol>
+        <li>Addressability</li>
+        <li>Uniform/Constrained Resources</li>
+        <li>Stateless</li>
+        <li>Representation-Oriented</li>
+        <li>Hypermedia As The Engine Of Application State</li>
+    </ol>
+</section>
+<section>
+    <h2>Addressability</h2>
+    <p>Todo recurso disponibilizado pelo serviço é mapeado unicamente por meio de uma URI.</p>
+    <pre><code data-noescape data-trim style="padding:1%">
+        https://api.github.com/users/torvalds
+    </code></pre>
+    <div class="box blue" style="position:fixed; top: 65%; left: 65%; width: 8em;">
+        Qual usuário é retornado por essa URI?
+    </div>
+</section>
+<section>
+    <h2>Uniform/Constrained Resouces</h2>
+    <p>Possui um conjunto pré-definido de ações para manipular os recursos do serviço (CRUD).</p>
+    <table style="max-width: 80%;">
+        <thead>
+            <td><b>Ação</b></td>
+            <td><b>Descrição</b></td>
+        </thead>
+        <tr>
+            <td><b>GET</b></td>
+            <td>Operação somente leitura. Utilizada para fazer requisições de leitura de dados do serviço. Deve ser idempotente de segura.</td>
+        </tr>
+        <tr>
+            <td><b>POST</b></td>
+            <td>Operação de escrita. Geralmente utilizada para adicionar novos recursos no serviço. Não é idempotente nem segura.</td>
+        </tr>
+        <tr>
+            <td><b>PUT</b></td>
+            <td>Operação de escrita, utilizada para fazer atualização de recursos já existentes. Deve ser idempotente.</td>
+        </tr>
+        <tr>
+            <td><b>DELETE</b></td>
+            <td>Utilizada para remover um recurso existente. Também deve ser idempotente.</td>
+        </tr>
+    </table>
+</section>
+<section>
+    <h2>Stateless</h2>
+    <p>O serviço deve manter apenas as informações dos dados que ele expõe.</p>
+    <p><b>Objetivo:</b> Escalabilidade</p>
+    <p>Não significa que a aplicação não pode manter estado.</p>
+    <ul>
+        <li>Dados de sessão são enviados em cada requisição.</li>
+    </ul>
+</section>
+<section>
+    <h2>Representation-Oriented</h2>
+    <p>As informações expostas pelos seriços são estruturadas, e 
+    para representá-los é necessário utilizar uma linguagem que suporte essa estruturação <small>(<a href="https://pt.wikipedia.org/wiki/XML">XML</a>, <a href="https://www.json.org/json-pt.html">JSON</a>, <a href="http://yaml.org/">YAML</a>)</small>.</p>
+    <p>Os dados são enviados no <em>response</em> da requisição:</p>
+    <ul>
+        <li>Propriedade dos dados são enviados no cabeçalho.</li>
+        <li>Os dados são enviados no corpo.</li>
+    </ul>
+</section>
+<section>
+    <h2>Representation-Oriented</h2>
+    <pre><code data-trim data-noescape>
+        $ curl -v https://api.github.com/users/coltec-mg
+    </code></pre>
+    <pre><code data-trim data-noescape style="max-height: 100%">
+        HTTP/1.1 200 OK
+        Server: GitHub.com
+        Date: Wed, 20 Jun 2018 17:49:44 GMT
+        <mark>Content-Type: application/json; charset=utf-8</mark>
+        Content-Length: 1333
+        <mark>X-RateLimit-Limit: 60</mark>
+        <mark>X-RateLimit-Remaining: 57</mark>
+        X-RateLimit-Reset: 1529520555
+        <mark>X-GitHub-Media-Type: github.v3; format=json</mark>
+        ...
+
+        {
+            "login": "COLTEC-MG",
+            "id": 9219735,
+            "url": "https://api.github.com/users/COLTEC-MG",
+            "html_url": "https://github.com/COLTEC-MG",
+            ...
+        }
+    </code></pre>
+</section>
+<section>
+    <h2>HATEOAS</h2>
+    <p><b>H</b>ypermedia <b>A</b>s <b>T</b>he <b>E</b>ngine <b>O</b>f <b>A</b>pplication <b>S</b>tate.</p>
+    <p>O volume de dados a ser disponibilizado por um serviço pode ser enorme. Os serviços REST se utilizam do mecanismo de <b>hiperlinks</b> para dividir o pedido em partes, e fornecê-las através de novas requisições.</p>
+    <p></p>
+    <p>Dessa forma, clientes e serviços não são sobrecarregados.</p>
+</section>
+<section>
+    <h2>HATEOAS</h2>
+    <pre><code data-noescape data-trim>
+        $ curl -v https://api.github.com/repos/facebook/react/contributors?<mark>page=1</mark>
+    </code></pre>
+    <pre><code data-noescape data-trim>
+        [
+            {
+              "login": "zpao",
+              "id": 8445,
+              ...
+            },
+            {
+              "login": "sophiebits",
+              "id": 6820,
+             ...
+            },
+            ...
+        ]
+    </code></pre>
+    <div class="box" style="position: fixed; right: 10%; top: 25%; width: 10em;">
+        <b>Faça um teste:</b> refaça a consulta informando outro valor para <code>page</code> e veja o que acontece.
+    </div>
+</section>
+<section>
+    <h2>REST &amp; Mobile</h2>
+    <ol>
+        <li>O padrão REST vem ganhando cada vez mais popularidade.</li>
+        <li>Apps. dependem cada vez mais de dados externos para funcionar.</li>
+        <li>A estrutura para consumo de dados via REST já existe nos S.Os móveis (HTTP).</li>
+    </ol>
+    <p>Portanto, a comunicação via REST é predominante quando se trata do mundo mobile!!</p>
+</section>
+<section>
+    <h1>REST &amp; Android</h1>
+</section>
+<section>
+    <h2>REST &amp; Android</h2>
+    <p>A comunicação REST no Android pode ser feita nativamente.</p>
+    <p>Para isso, o desenvolvedor deverá implementar, <b>manualmente</b>:</p>
+    <ol>
+        <li>Estabelecer conexão com serviço.</li>
+        <li>Requisitar os dados necessários.</li>
+        <li>Fazer a conversão do dado recebido para um respectivo objeto</li>
+    </ol>
+    <p><b>Alternativa: Utilizar uma biblioteca de consumo de Serviços REST.</b></p>
+</section>
+<section>
+    <h2>Retrofit</h2>
+    <p><b><a href="http://square.github.io/retrofit/">Retrofit</a></b> é uma biblioteca cujo propósito é facilitar a comunicação com Serviços REST.</p>
+    <p>É uma das bibliotecas REST Client mais utilizadas no universo Android.</p>
+    <ul class="check">
+        <li>Mapeamento de JSON para objetos</li>
+        <li>Definição de requisições por meio de interfaces</li>
+    </ul>
+</section>
+<section>
+    <h2>Retrofit &mdash; Instalação</h2>
+    <p>A instalação pode ser feita por meio do gradle presente no módulo <code>app</code>:</p>
+    <pre data-file="build.gradle"><code data-trim data-noescape>
+        ...
+        dependencies {
+            ...
+            api 'com.squareup.retrofit2:retrofit:2.4.0'
+            api 'com.squareup.retrofit2:converter-gson:2.4.0'
+        }
+    </code></pre>
+    Além disso, é necessário adicionar a permissão de acesso a internet:
+    <pre data-file="AndroidManifest.xml"><code class="xml" data-trim data-noescape>
+        &lt;manifest ...&gt;
+            &lt;uses-permission android:name="android.permission.INTERNET" /&gt;
+            ...
+        &lt;/manifest&gt;
+    </code></pre>
+</section>
+<section>
+    <h2>Retrofit &mdash; Configuração</h2>
+    <p>Para se trabalhar com o Retrofit é necessário:</p>
+    <ol>
+        <li>Configurar o Serviço</li>
+        <li>Configurar Interface</li>
+        <li>Fazer chamada do Serviço</li>
+    </ol>
+</section>
+<section>
+    <h2>Configurando o Serviço</h2>
+    <p>A configuração do serviço define parâmetros gerais de seu funcionamento:</p>
+    <ul>
+        <li>Qual o endereço do serviço?</li>
+        <li>Como o dado retornado será desempacotado?</li>
+    </ul>
+    <p>Essa configuração é feita através da função <code>Retrofit.Builder()</code>.</p>
+</section>
+<section>
+    <h2>Configurando o Serviço</h2>
+    <pre data-file="RetrofitConfig.java"><code class="java" data-trim data-noescape style="max-height:100%;">
+        import retrofit2.Retrofit;
+        import retrofit2.converter.gson.GsonConverterFactory;
+
+        public class RetrofitConfig {
+
+            // Objeto que fará o acesso a API do serviço
+            private final Retrofit retrofit;
+
+            public RetrofitConfig() {
+                
+                // configura o retrofit para um determinado serviço
+                <mark>this.retrofit = new Retrofit.Builder()</mark>
+                                    <mark>.baseUrl("https://viacep.com.br/")</mark>
+                                    <mark>.addConverterFactory(GsonConverterFactory.create())</mark>
+                                    <mark>.build();</mark>
+            }
+        }           
+    </code></pre>
+</section>
+<section>
+    <h2>Configurando a Interface</h2>
+    <p>No Retrofit, o acesso aos dados do serviço são feitos através de <code>services</code>.</p>
+    <p>Os <code>services</code> são interfaces que possuem anotações indicando como a requisição deve ser feita no serviço.</p>
+</section>
+<section id="restInterface">
+    <style>
+        #restInterface div.box {
+            position: fixed;
+            width: 10em;
+            top: 40%;
+            right: 10%;
+        }
+    </style>
+    <h2>Configurando a Interface</h2>
+    <pre data-file="EnderecoService.java"><code data-trim data-noescape class="java" style="max-height: 100%">
+        import retrofit2.Call;
+        import retrofit2.http.GET;
+        import retrofit2.http.Path;
+        
+        public interface EnderecoService {
+
+            <mark class="lightgrey"><span class="fragment" data-fragment-index="1">@GET("ws/{cep}/json")</span></mark>
+            public <mark class="lightgrey"><span class="fragment" data-fragment-index="3">Call&lt;Endereco&gt;</span></mark> getEndereco(<mark class="lightgrey"><span class="fragment" data-fragment-index="2">@Path("cep")</span></mark> String cep);
+        
+            <mark class="lightgrey"><span class="fragment" data-fragment-index="1">@GET("ws/{estado}/{cidade}/{rua}/json")</span></mark>
+            public <mark class="lightgrey"><span class="fragment" data-fragment-index="3">Call&lt;List&lt;Endereco&gt;&gt;</span></mark> getCEP(<mark class="lightgrey"><span class="fragment" data-fragment-index="2">@Path("estado")</span></mark> String estado,
+                                                <mark class="lightgrey"><span class="fragment" data-fragment-index="2">@Path("cidade")</span></mark> String cidade,
+                                                <mark class="lightgrey"><span class="fragment" data-fragment-index="2">@Path("rua")</span></mark> String rua);
+        }
+    </code></pre>
+    <span class="fragment" data-fragment-index="1">
+        <span class="fragment fade-out" data-fragment-index="2">
+            <div class="box" >
+                As declarações das funções são anotadas referente a qual rota ela irá invocar
+            </div>
+        </span>
+    </span>
+    <span class="fragment" data-fragment-index="2">
+        <span class="fragment fade-out" data-fragment-index="3">
+            <div class="box">
+                Os parâmetros são anotados para indicar onde eles vão se encaixar na rota
+            </div>
+        </span>
+    </span>
+    <span class="fragment" data-fragment-index="3">
+        <span class="fragment fade-out" data-fragment-index="4">
+            <div class="box">
+                As funções devem retornar objetos do tipo <code>Call&lt;Tipo&gt;</code>
+            </div>
+        </span>
+    </span>
+</section>
+<section>
+    <h2>Chamando o Serviço</h2>
+    <p>Para fazer chamada ao retrofit, é necessário:</p>
+    <ol>
+        <li>Criar uma nova instância do serviço a ser chamada</li>
+        <li>Fazer requisição ao serviço</li>
+    </ol>
+</section>
+<section>
+    <h2>Chamando o Serviço &mdash; pt. 1</h2>
+    <p>Para criar uma nova instância nós utilizamos a função <code>create()</code>:</p>
+    <pre><code class="java" data-trim data-noescape>
+        Retrofit retrofit = new Retrofit.Builder()
+                            .baseUrl("https://webservice.url/")
+                            .build();
+        ...
+        ServiceInterface service = retrofit.create(ServiceInterface.class);
+    </code></pre>
+</section>
+<section>
+    <h2>Chamando o Serviço &mdash; pt. 1</h2>
+    <pre data-file="RetrofitConfig.java"><code class="java" data-trim data-noescape>
+        public class RetrofitConfig {
+            private final Retrofit retrofit;
+        
+            public RetrofitConfig() {
+                ...
+            }
+        
+            public EnderecoService getEnderecoService() {
+                return this.retrofit.create(EnderecoService.class);
+            }
+        }
+    </code></pre>
+</section>
+<section>
+    <h2>Chamando o Serviço  &mdash; pt. 2</h2>
+    <table>
+        <thead>
+            <td><b>Função</b></td>
+            <td><b>Descrição</b></td>
+        </thead>
+        <tr>
+            <td><code>Response&lt;T&gt; execute()</code></td>
+            <td>Faz a resquisição de forma <b>síncrona</b>, retornando o dado empacotado dentro do objeto Response.</td>
+        </tr>
+        <tr>
+            <td style="width: 48%;"><code>void enqueue(Callback&lt;T&gt; callback)</code></td>
+            <td>Faz a requisição de forma <b>assíncrona</b>. O <code>callback</code> enviado como parâmetro implementa métodos que serão executados ao receber o dado, ou no caso de uma falha da requisição.</td>
+        </tr>
+    </table>
+    <div class="box red fragment" style="position: fixed; bottom: 20%; left: 0%; width: 20em">Deve-se sempre priorizar as chamadas assíncronas para evitar travamento do aplicativo durante execução da requisição.</div>
+</section>
+<section>
+    <h2>Chamando o Serviço &mdash; pt. 2</h2>
+    <pre><code class="java" style="max-height: 100%" data-trim data-noescape>
+        ...
+        EnderecoService service = new RetrofitConfig().getEnderecoService();
+        Call&lt;Endereco&gt; enderecoCall = service.getEndereco(cep);
+
+        // fazendo a requisição de forma assíncrona
+        enderecoCall.enqueue(new Callback&lt;Endereco&gt;() {
+            @Override
+            public void onResponse(Call&lt;Endereco&gt; call, Response&lt;Endereco&gt; response) {
+                Endereco endereco = response.body();
+                
+                // Manipulação do endereço recebido
+            }
+
+            @Override
+            public void onFailure(Call&lt;Endereco&gt; call, Throwable t) {
+                // Tratamento de eventual erro de requisição
+            }
+        });
+    </code></pre>
+</section>
+<section class="reference">
+    <h2>Referência Complementar</h2>
+    <ul>
+        <li><a href="https://www.oreilly.com/library/view/restful-java-with/9780596809300/ch01s02.html">RESTFul Archutectural Principles</a></li>
+        <li><a href="http://square.github.io/retrofit/">Retrofit</a></li>
+        <li><a href="https://code.tutsplus.com/pt/tutorials/android-from-scratch-using-rest-apis--cms-27117">Blog: Android a Partir do Zero: Fazendo uso de APIs REST</a></li>
+        <li><a href="http://blog.matheuscastiglioni.com.br/consumindo-web-service-no-android-com-retrofit">Blog: Consumindo Web Service no Android com Retrofit</a></li>
+        <li><a href="http://www.vogella.com/tutorials/Retrofit/article.html">Blog: Using Retrofit 2.x as REST Client</a></li>
+    </ul>
+</section>
